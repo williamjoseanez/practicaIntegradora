@@ -139,30 +139,13 @@ router.get("/register", (req, res) => {
 
 //Perfil
 router.get("/profile", (req, res) => {
-  if (!req.session.login) {
-    return res.redirect("/login");
+  if (!req.session.user) {
+    return res.status(401).json({ status: "error", message: "sin sesion activa" });
   }
+  // Si hay una sesión activa, mostrar el perfil del usuario
   res.render("profile", { user: req.session.user });
 });
 
-// //////////current
-// router.get("/current", async (req, res) => {
-//   if (!req.user)
-//     return res
-//       .status(404)
-//       .send({ status: "error", message: "sin sesion activa" });
 
-//   res.json(req.user);
-// });
-
-// Ruta para obtener el usuario actualmente autenticado
-router.get(
-  "/current",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    // Si se llega a este punto, el usuario está autenticado y puedo acceder a req.user
-    res.json(req.user);
-  }
-);
 
 module.exports = router;

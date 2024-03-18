@@ -3,6 +3,7 @@ const router = express.Router();
 const UserModel = require("../dao/models/user.model.js");
 const { isValidPassword } = require("../utils/hashBcrypt.js");
 const passport = require("passport");
+const session = require('express-session');
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -95,18 +96,32 @@ router.get(
   passport.authenticate("facebook", {
     successRedirect: "/products",
     failureRedirect: "/login",
-  })
-  // async (req, res) => {
-  //   if (req.isAuthenticated()) {
-  //     let { displayName, provider } = req.user;
-  //     res.render("products", { displayName, provider });
-  //   } else {
-  //     res.redirect("/login");
-  //   }
-  // }
+  }),
+  async (req, res) => {
+    try {
+      if (req.isAuthenticated()) {
+        let { displayName, provider } = req.user;
+        res.render("products", { displayName, provider });
+      } else {
+        res.redirect("/login");
+      }
+    } catch (error) {
+      // Manejo de errores aquí
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  }
 );
 
 
+//////////current
+router.get('/current', (req, res) => {
+  if (req.session && req.session.user) {
+    res.json(req.session.user);
+  } else {
+    res.status(401).json({ status: 'error', message: 'sin sesion activa' });
+  }
+});
 
 
 

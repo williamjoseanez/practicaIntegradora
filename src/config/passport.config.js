@@ -164,19 +164,29 @@ const initializePassport = () => {
     done(null, user._id);
   });
 
-  passport.deserializeUser((id, done) => {
-    UserModel.findById(id, (err, user) => {
-      done(err, user);
-    });
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await UserModel.findById(id);
+      done(null, user);
+    } catch (error) {
+      done(error);
+    }
   });
 };
+
+
+
+
 const crypto = require("crypto");
 
 const generateSecretKey = () => {
-  return crypto.randomBytes(32).toString("hex"); // Genera una clave secreta de 256 bits (32 bytes) y la convierte a una cadena hexadecimal
+  return crypto.randomBytes(10).toString("hex"); // Genera una clave secreta de 256 bits (32 bytes) y la convierte a una cadena hexadecimal
 };
 
 const secretKey = generateSecretKey();
 console.log(secretKey); // Imprime la clave secreta generada
+
+
+
 
 module.exports = initializePassport;
