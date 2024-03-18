@@ -180,7 +180,7 @@ const initializePassport = () => {
 const crypto = require("crypto");
 
 const generateSecretKey = () => {
-  return crypto.randomBytes(10).toString("hex"); // Genera una clave secreta de 256 bits (32 bytes) y la convierte a una cadena hexadecimal
+  return crypto.randomBytes(10).toString("hex"); 
 };
 
 const secretKey = generateSecretKey();
