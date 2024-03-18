@@ -1,0 +1,27 @@
+ {{>header}}
+
+
+<div class="card">
+  {{#if products}}
+    <img
+      src="{{products.thumbnail}}"
+      class="card-img-top"
+      alt="{{products.title}}"
+    />
+    <div class="card-body">
+      <h5 class="card-title">{{products.title}}</h5>
+      <p class="card-text">{{products.description}}</p>
+      <p class="card-text">Price: ${{formatPrice products.price}}</p>
+      <p class="card-text">Category: {{products.category}}</p>
+      {{#if product.status}}
+        <p class="card-text">Availability: Available</p>
+      {{else}}
+        <p class="card-text">Availability: Not available</p>
+      {{/if}}
+      <a href="/add-to-cart/{{product._id}}" class="btn btn-primary">Add to Cart</a>
+    </div>
+  {{else}}
+    <p>No product available</p>
+  {{/if}}
+  <a href="/products" class="btn btn-secondary">Back</a>
+</div>

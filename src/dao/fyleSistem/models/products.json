@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "title": "Manaos",
+    "description": "Cola",
+    "price": 950,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399302/maple_dkozju.png",
+    "code": "abc125",
+    "stock": "40"
+  },
+  {
+    "id": 2,
+    "title": "Manaos",
+    "description": "Cola",
+    "price": 950,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399302/maple_dkozju.png",
+    "code": "abc125",
+    "stock": "40"
+  },
+  {
+    "id": 4,
+    "title": "Manaos",
+    "description": "lima",
+    "price": 950,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399302/promo_6_r9o6iq.png",
+    "code": "abc126",
+    "stock": "40"
+  },
+  {
+    "id": 5,
+    "title": "Manaos",
+    "description": "naranja",
+    "price": 950,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399301/promo_5_hpvg1b.png",
+    "code": "abc127",
+    "stock": "40"
+  },
+  {
+    "id": 6,
+    "title": "Manaos",
+    "description": "tonica",
+    "price": 950,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399301/promo_4_ybttre.png",
+    "code": "abc128",
+    "stock": "40"
+  },
+  {
+    "id": 7,
+    "title": "Manaos",
+    "description": "guarana",
+    "price": 950,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399301/promo_3_bctdxs.png",
+    "code": "abc129",
+    "stock": "40"
+  },
+  {
+    "id": 8,
+    "title": "Manaos",
+    "description": "cola zero",
+    "price": 950,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399301/promo_2_zzhdsm.png",
+    "code": "abc130",
+    "stock": "40"
+  },
+  {
+    "id": 9,
+    "title": "Manaos",
+    "description": "agua sin gas",
+    "price": 400,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399301/promo_1_pp656g.png",
+    "code": "abc131",
+    "stock": "40"
+  },
+  {
+    "id": 10,
+    "title": "Manaos",
+    "description": "agua con gas",
+    "price": 500,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399300/milanesa_de_polllo_ugd6oq.png",
+    "code": "abc132",
+    "stock": "40"
+  },
+  {
+    "id": 11,
+    "title": "coca cola",
+    "description": "retornable 2l",
+    "price": 1100,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399300/promo_7_xwtotg.png",
+    "code": "abc133",
+    "stock": "40"
+  },
+  {
+    "id": 12,
+    "title": "Fanta",
+    "description": "Cdescartable 2.25ml",
+    "price": 1600,
+    "thumbnail": "https://res.cloudinary.com/dheurnsr0/image/upload/v1699399300/promo_8_hrrbq1.png",
+    "code": "abc134",
+    "stock": "40"
+  }
+]

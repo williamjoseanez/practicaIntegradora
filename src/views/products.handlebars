@@ -1,0 +1,37 @@
+ {{>header}}
+
+ <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date(); (function(){ var
+  s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/65e8c9fd8d261e1b5f698f4a/1hoala255';
+  s1.charset='UTF-8'; s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0); })();
+</script>
+<!--End of Tawk.to Script-->
+
+<div id="product-container">
+  {{#each products}}
+    <div class="card">
+      <img src="{{this.thumbnail}}" class="card-img-top" alt="{{this.title}}" />
+      <p>Title: {{this.title}}</p>
+      <p>Description: {{this.description}}</p>
+      <p>Price: $ {{this.price}}</p>
+      <p>Category: {{this.category}}</p>
+        <button onclick="addToCart('{{this._id}}')">Agregar al Carrito</button>
+    </div>
+  {{/each}}
+</div>
+<div id="message-container"></div>
+<div id="pagination">
+  {{#if hasNextPage}}
+    <a href="/products?page={{nextPage}}">Siguiente</a>
+  {{/if}}
+  {{#if hasPrevPage}}
+    <a href="/products?page={{prevPage}}">Anterior</a>
+  {{/if}}
+
+</div>
+
+<p>Página actual: {{currentPage}} de {{totalPages}}</p>

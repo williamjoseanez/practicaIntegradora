@@ -1,0 +1,72 @@
+<div style="padding: 2rem;">
+  <h1>REGISTRO</h1>
+</div>
+<div class="login-container">
+  <div class="login">
+    <form class="login-form" action="/api/users" method="post">
+
+      <label for="first_name"> </label>
+      <input
+        type="text"
+        id="first_name"
+        name="first_name"
+        placeholder="Nombre"
+        required
+      />
+      <label for="last_name"></label>
+      <input
+        type="text"
+        id="last_name"
+        name="last_name"
+        placeholder="Apellido"
+        required
+      />
+      <label for="email"> </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email"
+        required
+      />
+      <label for="Password"> </label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Contraseña"
+        required
+      />
+      <label for="Age"></label>
+      <input type="number" id="age" name="age" placeholder="Edad" required />
+
+      <button type="submit">Registrarme</button>
+      <button
+        class="color-button"
+        type="button"
+        onclick="window.location.href='http://localhost:/'"
+      >
+        Ir a Inicio
+      </button>
+      <div>
+
+        ¿Ya tienes una cuenta?
+
+        <a href="/login">Iniciar Sesión</a>
+
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date(); (function(){ var
+  s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/65e8c9fd8d261e1b5f698f4a/1hoala255';
+  s1.charset='UTF-8'; s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0); })();
+</script>
+<!--End of Tawk.to Script-->

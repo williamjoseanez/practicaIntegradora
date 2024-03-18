@@ -1,0 +1,25 @@
+<header>
+  <a href="/" class="logo">
+    <img
+      src="https://res.cloudinary.com/dheurnsr0/image/upload/v1701221794/IMG_1172_nyrqq4.jpg"
+      alt=""
+    />
+  </a>
+
+  <nav>
+    <ul>
+      {{#if user}}
+        <li><a href="/profile">¡Bienvenido
+            {{user.first_name}}
+
+            {{user.role}}!</a></li>
+
+        <li><a href="/products">Products</a></li>
+        <li><a href="/api/sessions/logout">cerrar sesion</a></li>
+      {{else}}
+        <li><a href="/login">Iniciar sessions</a></li>
+        <li><a href="/register">Registrarse</a></li>
+      {{/if}}
+    </ul>
+  </nav>
+</header>
