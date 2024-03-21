@@ -1,14 +1,24 @@
 const mongoose = require("mongoose");
+const configObject = require("./config/config.js");
+const { mongo_url } = configObject;
 
+class DataBase {
+  static #instancia;
 
-const main = async () => {
-  mongoose
-    .connect(
-      "mongodb+srv://williamjoseanez:William17735207@cluster0.fpryakl.mongodb.net/ecommerce?retryWrites=true&w=majority"
-    )
-    .then(() => console.log("conectado a la base de datos mongoDB"))
-    .catch((error) => console.error(error));
+  constructor() {
+    mongoose.connect(mongo_url);
+  }
 
-};
+  static getInstancia() {
+    if (this.#instancia) {
+      console.log("Conexion previa");
+      return this.#instancia;
+    }
 
-main();
+    this.#instancia = new DataBase();
+    console.log("Conexión exitosa!!");
+    return this.#instancia;
+  }
+}
+
+module.exports = DataBase.getInstancia();

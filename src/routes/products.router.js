@@ -2,56 +2,62 @@ const express = require("express");
 const router = express.Router();
 const ProductManager = require("../dao/mongoDb/controllsDB/product-manager-db");
 const products = new ProductManager();
+const ProductController = require("../controllers/product.controller");
+const productController = new ProductController();
+
+// //////////////////////////// GET Methods /////////////////////////
+router.get("/search", productController.getProducts);
+router.post("/search", productController.postProduct);
 
 // Método GET - Obtener productos con búsqueda, paginación y ordenamiento
-router.get("/", async (req, res) => {
+router.get("/",  async (req, res) => {
   try {
     // Parsear los parámetros de consulta
-    const { limit = 10, page = 1, sort, query} = req.query;
+    const { limit = 10, page = 1, sort, query } = req.query;
 
-   
     // Obtener la lista de productos
     const productList = await products.getProducts({
       limit: parseInt(limit),
       page: parseInt(page),
       sort,
       query,
-  });
-  res.json({
-    status: 'success',
-    payload: productList,
-    totalPages: productList.totalPages,
-    prevPage: productList.prevPage,
-    nextPage: productList.nextPage,
-    page: productList.page,
-    hasPrevPage: productList.hasPrevPage,
-    hasNextPage: productList.hasNextPage,
-    prevLink: productList.hasPrevPage ? `/api/products?limit=${limit}&page=${productList.prevPage}&sort=${sort}&query=${query}` : null,
-    nextLink: productList.hasNextPage ? `/api/products?limit=${limit}&page=${productList.nextPage}&sort=${sort}&query=${query}` : null,
+    });
+    res.json({
+      status: "success",
+      payload: productList,
+      totalPages: productList.totalPages,
+      prevPage: productList.prevPage,
+      nextPage: productList.nextPage,
+      page: productList.page,
+      hasPrevPage: productList.hasPrevPage,
+      hasNextPage: productList.hasNextPage,
+      prevLink: productList.hasPrevPage
+        ? `/api/products?limit=${limit}&page=${productList.prevPage}&sort=${sort}&query=${query}`
+        : null,
+      nextLink: productList.hasNextPage
+        ? `/api/products?limit=${limit}&page=${productList.nextPage}&sort=${sort}&query=${query}`
+        : null,
+    });
+  } catch (error) {
+    console.error("Error al obtener productos", error);
+    res.status(500).json({
+      status: "error",
+      error: "Error interno del servidor",
+    });
+  }
 });
 
-} catch (error) {
-  console.error("Error al obtener productos", error);
-  res.status(500).json({
-      status: 'error',
-      error: "Error interno del servidor"
-  });
-}
-});
-   
 // Método GET - Obtener un producto por ID
 router.get("/:pid", async (req, res) => {
   const id = req.params.pid;
   try {
-
     const buscar = await products.getProductById(id);
 
     if (!buscar) {
       return res.json({ error: "Producto no encontrado" });
     }
     res.json(buscar);
-
-    } catch (error) {
+  } catch (error) {
     console.error("Error al obtener producto por ID:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
@@ -62,7 +68,6 @@ router.post("/", async (req, res) => {
   const newProduct = req.body;
 
   try {
-   
     await products.addProduct(newProduct);
     res.status(201).json({ message: "Producto agregado exitosamente" });
   } catch (error) {

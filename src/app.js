@@ -89,7 +89,7 @@ io.on("connection", async (socket) => {
 
     //Obtengo los msj Mongo DB y se los paso al cliente:
     const messages = await MessageModel.find();
-    console.log(messages);
+    // console.log(messages);
 
     io.sockets.emit("message", messages);
   });
