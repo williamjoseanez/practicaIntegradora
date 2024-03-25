@@ -1,5 +1,5 @@
-const ProductModel = require("../dao/mongoDb/modelsDB/products.model");
-const answer = require("../utils/reusable");
+const ProductModel = require("../mongoDb/modelsDB/products.model");
+const answer = require("../../utils/reusable");
 
 class ProductController {
   async getProducts(req, res) {

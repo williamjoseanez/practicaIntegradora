@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ProductManager = require("../dao/mongoDb/controllsDB/product-manager-db");
 const products = new ProductManager();
-const ProductController = require("../controllers/product.controller");
+const ProductController = require("../dao/controllers/product.controller");
 const productController = new ProductController();
 
 // //////////////////////////// GET Methods /////////////////////////
@@ -10,7 +10,7 @@ router.get("/search", productController.getProducts);
 router.post("/search", productController.postProduct);
 
 // Método GET - Obtener productos con búsqueda, paginación y ordenamiento
-router.get("/",  async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     // Parsear los parámetros de consulta
     const { limit = 10, page = 1, sort, query } = req.query;
