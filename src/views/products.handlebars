@@ -19,10 +19,13 @@
       <p>Description: {{this.description}}</p>
       <p>Price: $ {{this.price}}</p>
       <p>Category: {{this.category}}</p>
-        <button onclick="addToCart('{{this._id}}')">Agregar al Carrito</button>
+      <p>Id: {{this.id}}</p>
+      <a href="/productsdetail/{{this._id}}" class="btn btn-primary">Detalle del producto</a>
     </div>
   {{/each}}
 </div>
+
+
 <div id="message-container"></div>
 <div id="pagination">
   {{#if hasNextPage}}

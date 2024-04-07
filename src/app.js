@@ -102,6 +102,12 @@ io.on("connection", async (socket) => {
   }
 
   socket.emit("products", productList);
+    // chat-Box
+    socket.on("message", (data) => {
+      messages.push(data);
+      io.emit("message", messages);
+      //Con emit emito eventos desde el servidor al cliente.
+    });
 
   //Recibo el evento "eliminarProducto"
   socket.on("eliminarProducto", async (id) => {

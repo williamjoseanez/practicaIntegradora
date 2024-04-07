@@ -115,6 +115,7 @@ class ProductManager {
       console.log("Error al buscar el producto por ID");
     }
   }
+
   async updateProduct(id, productActualizado) {
     try {
       const productUpdate = await ProductsModel.findByIdAndUpdate(

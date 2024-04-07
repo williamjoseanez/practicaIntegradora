@@ -1,4 +1,3 @@
-
 const socket = io();
 
 socket.on("products", (data) => {
@@ -10,7 +9,7 @@ socket.on("products", (data) => {
 });
 
 const renderProductos = (products) => {
-  console.log('Received data:', products);
+  console.log("Received data:", products);
   const contenedorProductos = document.getElementById("contenedorProductos");
   contenedorProductos.innerHTML = "";
 
@@ -34,9 +33,7 @@ const renderProductos = (products) => {
   });
 };
 
-
-const eliminarProducto =  (id) => {
-
+const eliminarProducto = (id) => {
   Swal.fire({
     title: "¿Estás seguro?",
     text: "Esta acción no se puede deshacer",
@@ -53,9 +50,7 @@ const eliminarProducto =  (id) => {
     }
   });
 
-
   // console.log('Eliminando producto con id:', id);
-  
 };
 
 socket.on("eliminarProducto", (id) => {
@@ -134,3 +129,5 @@ const agregarProducto = () => {
   document.getElementById("stock").value = "";
   document.getElementById("category").value = "";
 };
+// /////////////////////////////
+

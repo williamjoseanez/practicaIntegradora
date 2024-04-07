@@ -1,27 +1,41 @@
- {{>header}}
-
+{{> header}}
 
 <div class="card">
-  {{#if products}}
+  {{#if product}}
     <img
-      src="{{products.thumbnail}}"
+      src="{{ product.thumbnail }}"
       class="card-img-top"
-      alt="{{products.title}}"
+      alt="{{ product.title }}"
     />
     <div class="card-body">
-      <h5 class="card-title">{{products.title}}</h5>
-      <p class="card-text">{{products.description}}</p>
-      <p class="card-text">Price: ${{formatPrice products.price}}</p>
-      <p class="card-text">Category: {{products.category}}</p>
+      <h5 class="card-title">{{ product.title }}</h5>
+      <p class="card-text">{{ product.description }}</p>
+      <p class="card-text">Price: ${{ formatPrice product.price }}</p>
+      <p class="card-text">Category: {{ product.category }}</p>
       {{#if product.status}}
         <p class="card-text">Availability: Available</p>
       {{else}}
         <p class="card-text">Availability: Not available</p>
       {{/if}}
-      <a href="/add-to-cart/{{product._id}}" class="btn btn-primary">Add to Cart</a>
+     <a href="#" class="btn btn-primary product-link" data-product-id="{{ product._id }}">View Details</a>
+
     </div>
   {{else}}
     <p>No product available</p>
   {{/if}}
   <a href="/products" class="btn btn-secondary">Back</a>
 </div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const productLinks = document.querySelectorAll('.product-link');
+    productLinks.forEach(function(link) {
+      link.addEventListener('click', function(event) {
+        event.preventDefault();
+        const productId = this.getAttribute('data-product-id');
+        window.location.href = '/productsdetail/' + productId;
+      });
+    });
+  });
+</script>

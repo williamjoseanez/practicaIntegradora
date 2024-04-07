@@ -1,0 +1,40 @@
+ {{>header}}
+
+<h1>Bienvenidos al Real-Time Products</h1>
+
+<div id="contenedorProductos"></div>
+<h2 class="div-form">FORMULARIO PARA AGREGAR PRODUCTOS</h2>
+
+<div class="div-form">
+  <form id="productForm">
+    <input type="text" id="title" placeholder="Titulo" required />
+    <input type="text" id="description" placeholder="Descripción" required />
+    <input type="number" id="price" placeholder="Precio" required />
+    <input type="text" id="thumbnail" value="Sin Imagen" />
+    <input type="text" id="code" placeholder="Código" required />
+    <input type="number" id="stock" placeholder="Stock" required />
+    <input type="text" id="category" placeholder="Categoria" required />
+    <select id="status">
+      <option value="true">Activo</option>
+      <option value="false">Inactivo</option>
+    </select>
+    <button type="button" id="btnEnviar">Enviar</button>
+  </form>
+</div>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"
+></script>
+<script src="js/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date(); (function(){ var
+  s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/65e8c9fd8d261e1b5f698f4a/1hoala255';
+  s1.charset='UTF-8'; s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0); })();
+</script>
+<!--End of Tawk.to Script-->

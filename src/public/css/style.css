@@ -2,10 +2,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh; /* Cambiado a min-height para asegurar que el cuerpo tenga al menos la altura de la ventana */
-  /* height: 100%; */
-  /* background-color: rgb(228, 216, 216); */
   background-image: url("https://res.cloudinary.com/dheurnsr0/image/upload/v1705343819/CI7GA76FD5GVPMHC354LEZK3X4_dlunvs.jpg");
-  /* background-repeat: no-repeat; */
   background-size: cover;
   background-attachment: fixed;
 }
