@@ -13,31 +13,29 @@ class SocketManager {
     this.io.on("connection", async (socket) => {
       console.log("Un cliente se conectó");
 
-      socket.emit("productos", await productService.getProducts());
+      socket.emit("products", await productService.getProducts());
 
-   
-    //      //Recibo el evento "eliminarProducto"
-  socket.on("eliminarProducto", async (id) => {
-    await productService.deletproduct(id);
-    io.sockets.emit("products", productService.getProducts());
-  });
+      //      //Recibo el evento "eliminarProducto"
+      socket.on("eliminarProducto", async (id) => {
+        await productService.deletproduct(id);
+        io.sockets.emit("products", productService.getProducts());
+      });
 
-  //Recibo el evento "agregarProducto"
-    socket.on("agregarProducto", async (product) => {
-      await productService.addProduct(product);
-      io.sockets.emit("products", productService.getProducts());
-    });
+      //Recibo el evento "agregarProducto"
+      socket.on("agregarProducto", async (product) => {
+        await productService.addProduct(product);
+        io.sockets.emit("products", productService.getProducts());
+      });
 
-    const productList = await productService.getProducts();
+      const productList = await productService.getProducts();
       if (Array.isArray(productList) && productList.length > 0) {
         socket.emit("products", productList);
       } else {
         console.error("Invalid product data:", productList);
       }
-    
-        
-  socket.emit("products", productList);
-// 
+
+      socket.emit("products", productList);
+      //
       socket.on("message", async (data) => {
         await MessageModel.create(data);
         const messages = await MessageModel.find();

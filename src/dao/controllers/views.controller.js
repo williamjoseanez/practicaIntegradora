@@ -104,17 +104,19 @@ class ViewsControllers {
   }
 
   //Perfil
-  
+
   async profile(req, res) {
     if (!req.session.user) {
-      return res.status(401).json({ status: "error", message: "sin sesion activa" });
+      return res
+        .status(401)
+        .json({ status: "error", message: "sin sesion activa" });
     }
-  
+
     //Con DTO:
     const userDto = new UserDTO(
-      req.session.user.first_name || '',
-      req.session.user.last_name || '',
-      req.session.user.role || ''
+      req.session.user.first_name || "",
+      req.session.user.last_name || "",
+      req.session.user.role || ""
     );
     const isAdmin = req.session.user.role === "admin";
     res.render("profile", { user: userDto, isAdmin });
@@ -141,20 +143,20 @@ class ViewsControllers {
     res.render("multer");
   }
   // ///////////////////upload
-  // async upload(req, res) {
-  //   const imagenes = await ImagenModel.find();
-  //   const newArrayImagenes = imagenes.map((imagen) => {
-  //     return {
-  //       id: imagen._id,
-  //       title: imagen.title,
-  //       description: imagen.description,
-  //       filename: imagen.filename,
-  //       path: imagen.path,
-  //     };
-  //   });
+  async upload(req, res) {
+    const imagenes = await ImagenModel.find();
+    const newArrayImagenes = imagenes.map((imagen) => {
+      return {
+        id: imagen._id,
+        title: imagen.title,
+        description: imagen.description,
+        filename: imagen.filename,
+        path: imagen.path,
+      };
+    });
 
-  //   res.render("upload", { imagenes: newArrayImagenes });
-  // }
+    res.render("upload", { imagenes: newArrayImagenes });
+  }
 }
 
 module.exports = ViewsControllers;

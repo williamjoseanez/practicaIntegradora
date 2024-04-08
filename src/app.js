@@ -3,13 +3,7 @@ const express = require("express");
 const productRouter = require("./routes/products.router");
 const cartsRouter = require("./routes/carts.router");
 const viewsRouter = require("./routes/views.router");
-const socket = require("socket.io");
-const ProductManager = require("./dao/fyleSistem/controlles/product-Manager.js");
-const products = new ProductManager(
-  "./src/dao/fyleSistem/models/products.json"
-);
 const multer = require("multer");
-const MessageModel = require("./dao/mongoDb/modelsDB/message.model.js");
 const exphbs = require("express-handlebars"); // motor de plantilla handlebars
 const PUERTO = 8080; // creo  puerto
 require("../src/database.js");
@@ -21,7 +15,6 @@ const userRouter = require("./routes/user.router");
 const sessionRouter = require("./routes/sessions.router.js");
 const passport = require("passport");
 const initializePassport = require("./config/passport.config.js");
-const jwt = require("jsonwebtoken");
 
 const app = express(); // creamos app
 
@@ -35,15 +28,15 @@ app.use(express.static("./src/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 app.use(
   session({
-    secret: "secretCoder",
+    secret: process.env.SESSION_SECRET,
     resave: true,
-    saveUninitilized: true,
+    saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://williamjoseanez:William17735207@cluster0.fpryakl.mongodb.net/ecommerce?retryWrites=true&w=majority",
-      ttl: 90,
+      mongoUrl: process.env.MONGO_URL,
+      ttl: parseInt(process.env.SESSION_TTL) || 90,
     }),
   })
 );
@@ -76,7 +69,6 @@ const httpServer = app.listen(PUERTO, () => {
   console.log(`Escuchado http://localhost:${PUERTO}`);
 });
 
-
 //Login
 app.get("/login", (req, res) => {
   let user = req.query.user;
@@ -93,7 +85,6 @@ app.get("/user", (req, res) => {
   res.send("No tenemos un usuario registrado");
 });
 
-
-///Websockets: 
+///Websockets:
 const SocketManager = require("./sockets/socketmanager.js");
 new SocketManager(httpServer);

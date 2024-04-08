@@ -21,9 +21,9 @@ router.get("/register", viewsController.register);
 //Perfil
 router.get("/profile", viewsController.profile);
 // ///////////////////////////////// Ruta para la vista en tiempo real
-router.get("/realtimeproducts", checkUserRole(['admin']),viewsController.realtimeproducts);
+router.get("/realtimeproducts",viewsController.realtimeproducts);
 // //////////////////////////// chat
-router.get("/chat", checkUserRole(['user']),viewsController.chat);
+router.get("/chat",viewsController.chat);
 // ////////////////////// multer, fomulario de imagnes
 router.get("/multer", viewsController.multer);
 // ///////////////////

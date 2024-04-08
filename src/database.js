@@ -11,12 +11,12 @@ class DataBase {
 
   static getInstancia() {
     if (this.#instancia) {
-      console.log("Conexion previa");
+      // console.log("Conexion previa");
       return this.#instancia;
     }
 
     this.#instancia = new DataBase();
-    console.log("Conexión exitosa!!");
+    // console.log("Conexión exitosa!!");
     return this.#instancia;
   }
 }

@@ -5,14 +5,25 @@ const { createHash, isValidPassword } = require("../utils/hashBcrypt.js");
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GitHubStrategy = require("passport-github2"); //Passport con GitHub
 const LocalStrategy = local.Strategy;
-const CartManager = require("../dao/mongoDb/controllsDB/cart-manager-db");
-const cartManager = new CartManager();
+const CartService = require("../services/cartsService.js");
+const cartService = new CartService();
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const jwtStrategy = require("passport-jwt").Strategy;
+const dotenv = require("dotenv");
+require("dotenv").config();
 
-const options = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: "secretKey", // Aquí debes proporcionar tu clave secreta para firmar y verificar tokens JWT
+// console.log("Environment variables:", process.env);
+// const options = {
+//   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+//   secretOrKey: "secretKey", // Aquí se debe proporcionar tu clave secreta para firmar y verificar tokens JWT
+// };
+
+const cookieExtractor = (req) => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies["coderCookieToken"];
+  }
+  return token;
 };
 
 // 1
@@ -30,7 +41,7 @@ const initializePassport = () => {
           let user = await UserModel.findOne({ email });
           if (user) return done(null, false);
 
-          const newCart = await cartManager.createCart();
+          const newCart = await cartService.createCart();
 
           const newUser = {
             first_name,
@@ -68,18 +79,20 @@ const initializePassport = () => {
     )
   );
 
+  // console.log("GitHub Client ID:", process.env.GITHUB_CLIENT_ID);
+  // console.log("GitHub Client Secret:", process.env.GITHUB_CLIENT_SECRET);
   // //////////////////////////////////Estategia GitHub
   passport.use(
     "github",
     new GitHubStrategy(
       {
-        clientID: "Iv1.48e7a6e65207a327",
-        clientSecret: "0baaa5e04267f8258e99087058d7b92d782a446a",
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        clientID:"Iv1.48e7a6e65207a327",
+        clientSecret:"0baaa5e04267f8258e99087058d7b92d782a446a",
+        callbackURL:"http://localhost:8080/api/sessions/githubcallback",
       },
       // clientSecret nueva 607b8c50ed69ab8b8cbeaba6f9e4139014b74fe2
       async (accessToken, refreshToken, profile, done) => {
-        console.log("Profile: ", profile);
+        // console.log("Profile: ", profile);
         try {
           let user = await UserModel.findOne({
             email: profile._json.email,
@@ -117,7 +130,7 @@ const initializePassport = () => {
       },
       // clientSecret nueva 607b8c50ed69ab8b8cbeaba6f9e4139014b74fe2
       async (accessToken, refreshToken, profile, done) => {
-        console.log("Profile: ", profile);
+        // console.log("Profile: ", profile);
         try {
           let user = await UserModel.findOne({
             // email: profile._json.email,
@@ -143,21 +156,29 @@ const initializePassport = () => {
       }
     )
   );
-
+  // /////////////////////////////////////////////jwt
   passport.use(
-    new jwtStrategy(options, async (jwtPayload, done) => {
-      try {
-        const user = await UserModel.findById(jwtPayload.id);
-        if (user) {
-          return done(null, user);
-        } else {
-          return done(null, false);
+    "jwt",
+    new jwtStrategy(
+      {
+        jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]), // Utiliza ExtractJwt.fromExtractors para extraer el token de la cookie
+        secretOrKey: "secretCoder",
+      },
+      async (jwt_payload, done) => {
+        try {
+          // Busca el usuario en la base de datos usando el ID del payload JWT
+          const user = await UserModel.findById(jwt_payload.user._id);
+          if (!user) {
+            return done(null, false);
+          }
+          return done(null, user); // Devuelve el usuario encontrado
+        } catch (error) {
+          return done(error);
         }
-      } catch (error) {
-        return done(error, false);
       }
-    })
+    )
   );
+
   // serializar el usuario y deserializar
 
   passport.serializeUser((user, done) => {
@@ -174,19 +195,13 @@ const initializePassport = () => {
   });
 };
 
-
-
-
 const crypto = require("crypto");
 
 const generateSecretKey = () => {
-  return crypto.randomBytes(10).toString("hex"); 
+  return crypto.randomBytes(10).toString("hex");
 };
 
 const secretKey = generateSecretKey();
-console.log(secretKey); // Imprime la clave secreta generada
-
-
-
+// console.log(secretKey); // Imprime la clave secreta generada
 
 module.exports = initializePassport;
