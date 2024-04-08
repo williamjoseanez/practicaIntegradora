@@ -3,6 +3,7 @@ const ProductService = require("../../services/productService.js");
 const products = new ProductService();
 const path = require("path");
 const fs = require("fs").promises;
+const UserDTO = require("../../dto/user.dto.js");
 const ProductModel = require("../mongoDb/modelsDB/products.model.js");
 
 class ViewsControllers {
@@ -103,14 +104,20 @@ class ViewsControllers {
   }
 
   //Perfil
+  
   async profile(req, res) {
     if (!req.session.user) {
-      return res
-        .status(401)
-        .json({ status: "error", message: "sin sesion activa" });
+      return res.status(401).json({ status: "error", message: "sin sesion activa" });
     }
-    // Si hay una sesión activa, mostrar el perfil del usuario
-    res.render("profile", { user: req.session.user });
+  
+    //Con DTO:
+    const userDto = new UserDTO(
+      req.session.user.first_name || '',
+      req.session.user.last_name || '',
+      req.session.user.role || ''
+    );
+    const isAdmin = req.session.user.role === "admin";
+    res.render("profile", { user: userDto, isAdmin });
   }
 
   // Ruta para la vista en tiempo real
@@ -134,20 +141,20 @@ class ViewsControllers {
     res.render("multer");
   }
   // ///////////////////upload
-  async upload(req, res) {
-    const imagenes = await ImagenModel.find();
-    const newArrayImagenes = imagenes.map((imagen) => {
-      return {
-        id: imagen._id,
-        title: imagen.title,
-        description: imagen.description,
-        filename: imagen.filename,
-        path: imagen.path,
-      };
-    });
+  // async upload(req, res) {
+  //   const imagenes = await ImagenModel.find();
+  //   const newArrayImagenes = imagenes.map((imagen) => {
+  //     return {
+  //       id: imagen._id,
+  //       title: imagen.title,
+  //       description: imagen.description,
+  //       filename: imagen.filename,
+  //       path: imagen.path,
+  //     };
+  //   });
 
-    res.render("upload", { imagenes: newArrayImagenes });
-  }
+  //   res.render("upload", { imagenes: newArrayImagenes });
+  // }
 }
 
 module.exports = ViewsControllers;

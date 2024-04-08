@@ -30,6 +30,8 @@ const userSchema = mongoose.Schema({
   },
   role: {
     type: String,
+    enum: ["admin", "user"],
+    default: "user",
     // required: true, // Ahora este campo es requerido
   },
   provider: {
