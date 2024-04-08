@@ -76,51 +76,6 @@ const httpServer = app.listen(PUERTO, () => {
   console.log(`Escuchado http://localhost:${PUERTO}`);
 });
 
-const io = new socket.Server(httpServer);
-
-// configuro los eventos de socket.io (conection)
-
-io.on("connection", async (socket) => {
-  // Envío la lista de productos cuando un cliente se conecta
-
-  //Guardo el Msj en Mongo DB
-  socket.on("message", async (data) => {
-    await MessageModel.create(data);
-
-    //Obtengo los msj Mongo DB y se los paso al cliente:
-    const messages = await MessageModel.find();
-    // console.log(messages);
-
-    io.sockets.emit("message", messages);
-  });
-
-  const productList = await products.getProducts();
-  if (Array.isArray(productList) && productList.length > 0) {
-    socket.emit("products", productList);
-  } else {
-    console.error("Invalid product data:", productList);
-  }
-
-  socket.emit("products", productList);
-    // chat-Box
-    socket.on("message", (data) => {
-      messages.push(data);
-      io.emit("message", messages);
-      //Con emit emito eventos desde el servidor al cliente.
-    });
-
-  //Recibo el evento "eliminarProducto"
-  socket.on("eliminarProducto", async (id) => {
-    await products.deletproduct(id);
-    io.sockets.emit("products", products.getProducts());
-  });
-
-  //Recibo el evento "agregarProducto"
-  socket.on("agregarProducto", async (product) => {
-    await products.addProduct(product);
-    io.sockets.emit("products", products.getProducts());
-  });
-});
 
 //Login
 app.get("/login", (req, res) => {
@@ -137,3 +92,8 @@ app.get("/user", (req, res) => {
   }
   res.send("No tenemos un usuario registrado");
 });
+
+
+///Websockets: 
+const SocketManager = require("./sockets/socketmanager.js");
+new SocketManager(httpServer);
