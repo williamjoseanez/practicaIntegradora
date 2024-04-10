@@ -1,11 +1,8 @@
-// const UserModel = require("../../dao/models/user.model.js");
-// const CartModel = require("../mongoDb/modelsDB/cart.models.js");
+// const UserModel = require("../../dao/mongoDb/modelsDB/user.model.js");
+// const CartModel = require("../../dao/mongoDb/modelsDB/cart.models.js");
 // const jwt = require("jsonwebtoken");
-// const { createHash, isValidPassord } = require("../../utils/hashBcrypt.js");
+// const { createHash, isValidPassword } = require("../../utils/hashBcrypt.js");
 // const UserDTO = require("../../dto/user.dto.js");
-const express = require("express");
-
-
 
 class UserController {
   async passportRegister(req, res) {

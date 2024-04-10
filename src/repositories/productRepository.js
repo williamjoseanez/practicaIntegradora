@@ -2,7 +2,7 @@ const ProductsModel = require("../dao/mongoDb/modelsDB/products.model.js");
 
 
 
-class ProductService {
+class ProductRepository {
     async addProduct({
         title,
         description,
@@ -153,4 +153,4 @@ class ProductService {
       }
     }
 
-module.exports= ProductService;
+module.exports= ProductRepository;

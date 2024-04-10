@@ -1,4 +1,4 @@
-const UserModel = require("../models/user.model.js");
+const UserModel = require("..//mongoDb/modelsDB/user.model.js");
 const { createHash, isValidPassword } = require("../../utils/hashBcrypt.js");
 
 class SessionController {

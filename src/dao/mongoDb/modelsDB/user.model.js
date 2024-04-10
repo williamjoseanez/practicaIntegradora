@@ -8,11 +8,11 @@ const userSchema = mongoose.Schema({
   },
   last_name: {
     type: String,
-    // required: true,
+    required: true,
   },
   email: {
     type: String,
-    // required: true, // Ahora este campo es requerido
+    required: true, // Ahora este campo es requerido
     index: true,
     unique: true,
   },
@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema({
   },
   age: {
     type: Number,
-    // required: true, // Ahora este campo es requerido
+    required: true, // Ahora este campo es requerido
   },
   role: {
     type: String,

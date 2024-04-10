@@ -1,7 +1,7 @@
 const socket = require("socket.io");
 const MessageModel = require("../dao/mongoDb/modelsDB/message.model");
-const ProductService = require("../services/productService");
-const productService = new ProductService();
+const ProductRepository= require("../repositories/productRepository");
+const productRepository = new ProductRepository();
 
 class SocketManager {
   constructor(httpServer) {
@@ -13,21 +13,21 @@ class SocketManager {
     this.io.on("connection", async (socket) => {
       console.log("Un cliente se conectó");
 
-      socket.emit("products", await productService.getProducts());
+      socket.emit("products", await productRepository.getProducts());
 
       //      //Recibo el evento "eliminarProducto"
       socket.on("eliminarProducto", async (id) => {
-        await productService.deletproduct(id);
-        io.sockets.emit("products", productService.getProducts());
+        await productRepository.deletproduct(id);
+        io.sockets.emit("products", productRepository.getProducts());
       });
 
       //Recibo el evento "agregarProducto"
       socket.on("agregarProducto", async (product) => {
-        await productService.addProduct(product);
-        io.sockets.emit("products", productService.getProducts());
+        await productRepository.addProduct(product);
+        io.sockets.emit("products", productRepository.getProducts());
       });
 
-      const productList = await productService.getProducts();
+      const productList = await productRepository.getProducts();
       if (Array.isArray(productList) && productList.length > 0) {
         socket.emit("products", productList);
       } else {
@@ -45,7 +45,7 @@ class SocketManager {
   }
 
   async emitUpdatedProducts(socket) {
-    socket.emit("productos", await productService.obtenerProductos());
+    socket.emit("productos", await productRepository.obtenerProductos());
   }
 }
 

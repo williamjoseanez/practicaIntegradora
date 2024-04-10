@@ -1,7 +1,7 @@
 const ProductModel = require("../mongoDb/modelsDB/products.model.js");
 const answer = require("../../utils/reusable.js");
-const ProductService = require("../../services/productService.js");
-const products = new ProductService();
+const ProductRepository = require("../../repositories/productRepository.js");
+const products = new ProductRepository();
 
 class ProductController {
 

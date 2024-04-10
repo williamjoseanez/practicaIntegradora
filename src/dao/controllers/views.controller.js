@@ -1,6 +1,6 @@
 const ImagenModel = require("../mongoDb/modelsDB/image.models");
-const ProductService = require("../../services/productService.js");
-const products = new ProductService();
+const ProductRepository = require("../../repositories/productRepository.js");
+const products = new ProductRepository();
 const path = require("path");
 const fs = require("fs").promises;
 const UserDTO = require("../../dto/user.dto.js");
@@ -89,7 +89,7 @@ class ViewsControllers {
   }
 
   //Login
-  login(req, res) {
+ async login(req, res) {
     if (req.session.login) {
       return res.redirect("/products");
     }

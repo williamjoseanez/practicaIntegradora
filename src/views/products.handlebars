@@ -21,6 +21,9 @@
       <p>Category: {{this.category}}</p>
       <p>Id: {{this.id}}</p>
       <a href="/productsdetail/{{this._id}}" class="btn btn-primary">Detalle del producto</a>
+      <form action="/api/carts/{{../cartId}}/product/{{id}}" method="POST">
+          <button class="btnMios" type="submit">Agregar al Carrito</button>
+      </form>
     </div>
   {{/each}}
 </div>

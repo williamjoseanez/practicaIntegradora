@@ -1,12 +1,12 @@
 const passport = require("passport");
 const local = require("passport-local");
-const UserModel = require("../dao/models/user.model.js"); //UserModel y las funciones de bcrypt
+const UserModel = require("../dao/mongoDb/modelsDB/user.model.js"); //UserModel y las funciones de bcrypt
 const { createHash, isValidPassword } = require("../utils/hashBcrypt.js");
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GitHubStrategy = require("passport-github2"); //Passport con GitHub
 const LocalStrategy = local.Strategy;
-const CartService = require("../services/cartsService.js");
-const cartService = new CartService();
+const CartRepository = require("../repositories/cartRepository.js");
+const cartRepository = new CartRepository();
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const jwtStrategy = require("passport-jwt").Strategy;
 const dotenv = require("dotenv");
@@ -41,7 +41,7 @@ const initializePassport = () => {
           let user = await UserModel.findOne({ email });
           if (user) return done(null, false);
 
-          const newCart = await cartService.createCart();
+          const newCart = await cartRepository.createCart();
 
           const newUser = {
             first_name,
@@ -86,9 +86,9 @@ const initializePassport = () => {
     "github",
     new GitHubStrategy(
       {
-        clientID:"Iv1.48e7a6e65207a327",
-        clientSecret:"0baaa5e04267f8258e99087058d7b92d782a446a",
-        callbackURL:"http://localhost:8080/api/sessions/githubcallback",
+        clientID: "Iv1.48e7a6e65207a327",
+        clientSecret: "0baaa5e04267f8258e99087058d7b92d782a446a",
+        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
       },
       // clientSecret nueva 607b8c50ed69ab8b8cbeaba6f9e4139014b74fe2
       async (accessToken, refreshToken, profile, done) => {

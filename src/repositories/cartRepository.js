@@ -1,7 +1,7 @@
 const CartModel = require("../dao/mongoDb/modelsDB/cart.models.js");
 
 
-class CartService {
+class CartRepository {
 
 
     async getAllCarts() {
@@ -25,17 +25,13 @@ class CartService {
         }
       }
     
-      async getCartById(cartId) {
+      async findById(cartId) {
         try {
           const cart = await CartModel.findById(cartId);
-          if (!cart) {
-            console.log("No existe ese carrito con el id");
-            return null;
-          }
-    
           return cart;
         } catch (error) {
-          console.log("Error al traer el carrito, fijate bien lo que haces", error);
+          console.error("Error al encontrar el carrito por ID:", error);
+          throw error;
         }
       }
     
@@ -162,4 +158,4 @@ class CartService {
     }
 
 
-module.exports = CartService;
+module.exports = CartRepository;

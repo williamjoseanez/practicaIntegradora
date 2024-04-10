@@ -1,15 +1,54 @@
  {{>header}}
 <div class="login-container">
     <div class="login">
-        <div class="login-form">
-            <h2>Mi Perfil</h2>
+        <div class="card">
+            <h2 style="color: aliceblue;">Mi Perfil</h2>
             <p>Bienvenido!, {{user.first_name}} {{user.last_name}}!</p>
             <p>Email: {{user.email}}</p>
             <p>Edad: {{user.age}}</p>
+             {{user.role}}
             {{!-- <a href="/api/sessions/logout">Logout</a> --}}
-
         </div>
-    </div>
+
+        {{#if this.isAdmin}}
+               <div>
+                   <button
+        type="button"
+        aria-disabled="false"
+        onclick="window.location.href='/realtimeproducts'"
+        style="background-color: #393c44; color: #fff; padding: 10px; border: none; border-radius: 5px; display: flex; align-items: center;"
+      >
+
+        <div>Real time products</div>
+      </button>
+         </div>
+            {{else}}
+          
+    
+                </div>
+                  <div>
+                   <button
+        type="button"
+        aria-disabled="false"
+        onclick="window.location.href='/products'"
+        style="background-color: #393c44; color: #fff; padding: 10px; border: none; border-radius: 5px; display: flex; align-items: center;"
+      >
+
+        <div>Tienda</div>
+      </button>
+         </div>
+           <div>
+                   <button
+        type="button"
+        aria-disabled="false"
+        onclick="window.location.href='/chat'"
+        style="background-color: #393c44; color: #fff; padding: 10px; border: none; border-radius: 5px; display: flex; align-items: center;"
+      >
+
+        <div>Chat</div>
+      </button>
+         </div>
+              {{/if}} 
 </div>
 
 <!--Start of Tawk.to Script-->

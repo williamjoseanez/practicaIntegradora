@@ -1,10 +1,10 @@
-const CartService = require("../../services/cartsService.js");
-const cartService = new CartService();
+const CartRepository = require("../../repositories/cartRepository.js");
+const cartRepository = new CartRepository();
 
 class CartController {
   async createCart(req, res) {
     try {
-      const newCart = await cartService.createCart();
+      const newCart = await cartRepository.createCart();
       res.json(newCart);
     } catch (error) {
       console.error("Error al crear un nuevo carrito", error);
@@ -16,9 +16,9 @@ class CartController {
     const cartId = req.params.cid;
 
     try {
-      const cart = await cartService.findById(cartId);
+      const cart = await cartRepository.findById(cartId);
 
-      if (!carrito) {
+      if (!cart) {
         console.log("No existe ese carrito con el id");
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
@@ -38,7 +38,7 @@ class CartController {
     const quantity = req.body.quantity || 1;
 
     try {
-      const updateCart = await cartService.aggProductCart(
+      const updateCart = await cartRepository.aggProductCart(
         cartId,
         productId,
         quantity
@@ -61,7 +61,7 @@ class CartController {
     const productId = req.params.pid;
 
     try {
-      const updatedCart = await cartService.removeProductFromCart(
+      const updatedCart = await cartRepository.removeProductFromCart(
         cartId,
         productId
       );
@@ -86,7 +86,10 @@ class CartController {
     const updatedProducts = req.body;
 
     try {
-      const updatedCart = await cartService.updateCart(cartId, updatedProducts);
+      const updatedCart = await cartRepository.updateCart(
+        cartId,
+        updatedProducts
+      );
       res.json(updatedCart.products);
     } catch (error) {
       console.error("Error al intentar actualizar el carrito", error);
@@ -103,7 +106,7 @@ class CartController {
     const newQuantity = req.body.quantity;
 
     try {
-      const updatedCart = await cartService.updateProductQuantity(
+      const updatedCart = await cartRepository.updateProductQuantity(
         cartId,
         productId,
         quantity
@@ -124,7 +127,7 @@ class CartController {
     try {
       const cartId = req.params.cid;
 
-      const updatedCart = await cartService.clearCart(cartId);
+      const updatedCart = await cartRepository.clearCart(cartId);
 
       res.json({
         status: "success",
@@ -145,14 +148,14 @@ class CartController {
     const cartId = req.params.cid;
 
     try {
-      const cart = await cartService.getCartById(cartId);
+      const cart = await cartRepository.getCartById(cartId);
 
       if (!cart) {
         console.log("No existe ese carrito con el id");
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
 
-      const productsInTheCart = cart.products.map((item) => ({
+      const productsInTheCart = cartRepository.products.map((item) => ({
         product: item.product.toObject(),
         //Lo convertimos a objeto para pasar las restricciones de Exp Handlebars.
         quantity: item.quantity,

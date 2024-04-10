@@ -69,21 +69,6 @@ const httpServer = app.listen(PUERTO, () => {
   console.log(`Escuchado http://localhost:${PUERTO}`);
 });
 
-//Login
-app.get("/login", (req, res) => {
-  let user = req.query.user;
-
-  req.session.user = user;
-  res.send("Guardamos el User por medio de Query");
-});
-
-//Usuario
-app.get("/user", (req, res) => {
-  if (req.session.user) {
-    return res.send(`El usuario registrado es: ${req.session.user}`);
-  }
-  res.send("No tenemos un usuario registrado");
-});
 
 ///Websockets:
 const SocketManager = require("./sockets/socketmanager.js");
