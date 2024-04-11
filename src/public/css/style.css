@@ -111,7 +111,16 @@ p {
   color: #ffffff;
   margin-top: 2rem; /* Agregado espacio superior para separar del contenido superior */
 }
-form {
+.btn-card {
+  width: 100%;
+  padding: 20px;
+  background-color: #d11313;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.div-form form {
   max-width: 300px;
   width: 100%;
   padding: 20px;
@@ -120,7 +129,15 @@ form {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-
+.login form {
+  max-width: 300px;
+  width: 100%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 form img {
   max-width: 100%;
   height: auto;

@@ -40,7 +40,7 @@ class ViewsControllers {
     try {
       const productId = req.params._id;
       // Buscar el producto en la base de datos por su ID
-      const product = await products.findById(productId);
+      const product = await ProductModel.findById(productId);
 
       if (!product) {
         // Si no se encuentra el producto, redirigir a una página de error o mostrar un mensaje
@@ -49,7 +49,7 @@ class ViewsControllers {
       }
 
       // Renderizo la plantilla de detalles del producto y paso los datos del producto
-      res.render("detalle", { product });
+      res.render("detail", { product });
     } catch (error) {
       // Manejo cualquier error que ocurra durante la búsqueda del producto
       console.error("Error al obtener los detalles del producto:", error);
@@ -87,9 +87,16 @@ class ViewsControllers {
       res.status(500).json({ error: "Error al obtener productos." });
     }
   }
+  // detail
+  async detail(req, res) {
+    if (req.session.login) {
+      return res.redirect("/detalle");
+    }
+    res.render("detail");
+  }
 
   //Login
- async login(req, res) {
+  async login(req, res) {
     if (req.session.login) {
       return res.redirect("/products");
     }

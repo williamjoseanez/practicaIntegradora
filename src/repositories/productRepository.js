@@ -115,23 +115,24 @@ class ProductRepository {
           return product;
         } catch (error) {
           console.log("Error al buscar el producto por ID");
+          throw new Error("Error");
         }
       }
     
-      async updateProduct(id, productActualizado) {
+      async updateProduct(id, productUpdated) {
         try {
-          const productUpdate = await ProductsModel.findByIdAndUpdate(
+          const Update = await ProductsModel.findByIdAndUpdate(
             id,
-            productActualizado
+            productUpdated
           );
     
-          if (!productUpdate) {
+          if (!Update) {
             console.log("El producto no existe");
             return null;
           }
     
           console.log("producto actializado con exito");
-          return productUpdate;
+          return Update;
         } catch (error) {
           console.log("error al actualizar el producto", error);
         }
@@ -145,10 +146,10 @@ class ProductRepository {
             return null;
           }
           console.log("Se ha eliminado correctamente el producto");
-          return null;
+          return productDelete;
         } catch (error) {
           console.log("error al borrar el producto", error);
-          throw error;
+          throw new Error("Error");
         }
       }
     }
