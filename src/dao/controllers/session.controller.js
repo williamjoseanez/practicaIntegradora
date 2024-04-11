@@ -9,8 +9,8 @@ class SessionController {
     if (email === "admin@admin.com" && password === "1234") {
       // Si las credenciales son correctas para el administrador, configuro la sesión del usuario como administrador
       req.session.user = {
-        first_name: "Admin",
-        last_name: "Admin",
+        first_name: "william",
+        last_name: "anez",
         email: email,
         role: "admin",
       };

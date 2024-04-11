@@ -10,14 +10,19 @@
     <ul>
       {{#if user}}
         <li><a href="/profile">¡Bienvenido
-            {{user.first_name}}
-
+            {{user.first_name}}, Tu role:
             {{user.role}}!</a></li>
-
-        <li><a href="/products">Products</a></li>
-        <li><a href="/api/sessions/logout">cerrar sesion</a></li>
+        <li><a href="/products">Tienda</a></li>
+        <li><a href="/realtimeproducts">Real Time Products</a></li>
+        <li><a href="/chat">Chat en Vivo</a></li>
+        <li><a href="/api/sessions/logout">
+            <img src="/img/icons8-apagar-16.png" alt="Cerrar sesión" />
+          </a></li>
       {{else}}
-        <li><a href="/login">Iniciar sessions</a></li>
+        <li><a href="/profile">¡Bienvenido
+            {{user.first_name}}, Tu role:
+            {{user.role}}!</a></li>
+        <li><a href="/login">Iniciar session</a></li>
         <li><a href="/register">Registrarse</a></li>
       {{/if}}
     </ul>
