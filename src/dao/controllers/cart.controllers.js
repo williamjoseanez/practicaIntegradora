@@ -18,11 +18,11 @@ class CartController {
     }
   }
 
-  async findById(req, res) {
+  async getCartById(req, res) {
     const cartId = req.params.cid;
 
     try {
-      const cart = await cartRepository.findById(cartId);
+      const cart = await cartRepository.getCartById(cartId);
 
       if (!cart) {
         console.log("No existe ese carrito con el id");
@@ -115,13 +115,13 @@ class CartController {
       const updatedCart = await cartRepository.updateProductQuantity(
         cartId,
         productId,
-        quantity
+        newQuantity
       );
       res.json({
-        status: 'success',
-        message: 'Cantidad del producto actualizada correctamente',
+        status: "success",
+        message: "Cantidad del producto actualizada correctamente",
         updatedCart,
-    });
+      });
     } catch (error) {
       console.error(
         "Error al intentar actualizar la cantidad de ejemplares de un producto en el carrito",
@@ -165,7 +165,7 @@ class CartController {
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
 
-      const productsInTheCart = cartRepository.products.map((item) => ({
+      const productsInTheCart = cart.products.map((item) => ({
         product: item.product.toObject(),
         //Lo convertimos a objeto para pasar las restricciones de Exp Handlebars.
         quantity: item.quantity,

@@ -69,7 +69,6 @@ const httpServer = app.listen(PUERTO, () => {
   console.log(`Escuchado http://localhost:${PUERTO}`);
 });
 
-
 ///Websockets:
 const SocketManager = require("./sockets/socketmanager.js");
 new SocketManager(httpServer);

@@ -1,17 +1,16 @@
-const ProductModel = require("../mongoDb/modelsDB/products.model.js");
-const answer = require("../../utils/reusable.js");
+// const ProductModel = require("../mongoDb/modelsDB/products.model.js");
+// const answer = require("../../utils/reusable.js");
 const ProductRepository = require("../../repositories/productRepository.js");
-const products = new ProductRepository();
+const productRepository = new ProductRepository();
 
 class ProductController {
-
   async getProducts(req, res) {
     try {
       // Parsear los parámetros de consulta
       const { limit = 10, page = 1, sort, query } = req.query;
 
       // Obtener la lista de productos
-      const productList = await products.getProducts({
+      const products = await productRepository.getProducts({
         limit: parseInt(limit),
         page: parseInt(page),
         sort,
@@ -19,18 +18,18 @@ class ProductController {
       });
       res.json({
         status: "success",
-        payload: productList,
-        totalPages: productList.totalPages,
-        prevPage: productList.prevPage,
-        nextPage: productList.nextPage,
-        page: productList.page,
-        hasPrevPage: productList.hasPrevPage,
-        hasNextPage: productList.hasNextPage,
-        prevLink: productList.hasPrevPage
-          ? `/api/products?limit=${limit}&page=${productList.prevPage}&sort=${sort}&query=${query}`
+        payload: products,
+        totalPages: products.totalPages,
+        prevPage: products.prevPage,
+        nextPage: products.nextPage,
+        page: products.page,
+        hasPrevPage: products.hasPrevPage,
+        hasNextPage: products.hasNextPage,
+        prevLink: products.hasPrevPage
+          ? `/api/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&query=${query}`
           : null,
-        nextLink: productList.hasNextPage
-          ? `/api/products?limit=${limit}&page=${productList.nextPage}&sort=${sort}&query=${query}`
+        nextLink: products.hasNextPage
+          ? `/api/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&query=${query}`
           : null,
       });
     } catch (error) {
@@ -42,26 +41,11 @@ class ProductController {
     }
   }
 
-  async getProductById (req, res) {
-    const id = req.params.pid;
-    try {
-      const buscar = await products.getProductById(id);
-  
-      if (!buscar) {
-        return res.json({ error: "Producto no encontrado" });
-      }
-      res.json(buscar);
-    } catch (error) {
-      console.error("Error al obtener producto por ID:", error);
-      res.status(500).json({ error: "Error interno del servidor" });
-    }
-  }
-
-  async addProduct (req, res) {
+  async addProduct(req, res) {
     const newProduct = req.body;
-  
+
     try {
-      await products.addProduct(newProduct);
+      await productRepository.addProduct(newProduct);
       res.status(201).json({ message: "Producto agregado exitosamente" });
     } catch (error) {
       console.error(error);
@@ -69,13 +53,30 @@ class ProductController {
     }
   }
 
+  async getProductById(req, res) {
+    const id = req.params.pid;
+    try {
+      const product = await productRepository.getProductById(id);
+
+      if (product) {
+        res.json(product);
+      } else {
+        res
+          .jstatus(44)
+          .json({ error: "Producto no Encontrado, siga intentando" });
+      }
+    } catch (error) {
+      console.error("Error al obtener producto por ID:", error);
+      res.status(500).json({ error: "Error interno del servidor" });
+    }
+  }
 
   async updateProduct(req, res) {
     const id = req.params.pid;
-    const productoActualizado = req.body;
-  
+    const productUpdate = req.body;
+
     try {
-      await products.updateProduct(id, productoActualizado);
+      await productRepository.updateProduct(id, productUpdate);
       res.json({ message: "Producto Actualizado Exitosamente" });
     } catch (error) {
       console.error(error);
@@ -83,10 +84,10 @@ class ProductController {
     }
   }
 
-  async deletproduct(req, res){
+  async deletproduct(req, res) {
     const id = req.params.pid;
     try {
-      await products.deletproduct(id);
+      await productRepository.deletproduct(id);
       res.json({ message: "Producto eliminado exitosamente" });
     } catch (error) {
       console.error(error);
@@ -94,16 +95,15 @@ class ProductController {
     }
   }
 
-  
-  async postProduct(req, res) {
-    try {
-      const newProduct = req.body;
-      await ProductModel.create(newProduct);
-      answer(res, 201, "Producto creado exitosamente");
-    } catch (error) {
-      answer(res, 500, "Error al obtener los productos");
-    }
-  }
+  // async postProduct(req, res) {
+  //   try {
+  //     const newProduct = req.body;
+  //     await ProductModel.create(newProduct);
+  //     answer(res, 201, "Producto creado exitosamente");
+  //   } catch (error) {
+  //     answer(res, 500, "Error al obtener los productos");
+  //   }
+  // }
 }
 
 module.exports = ProductController;

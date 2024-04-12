@@ -21,14 +21,14 @@ class CartRepository {
   //   }
   // }
 
-  async findById(cartId) {
+  async getCartById(cartId) {
     try {
       const cart = await CartModel.findById(cartId);
       if (!cart) {
         console.log("No existe ese carrito con el id");
         return null;
-    }
-    return cart;
+      }
+      return cart;
     } catch (error) {
       console.error("Error al encontrar el carrito por ID:", error);
       throw error;
@@ -38,8 +38,12 @@ class CartRepository {
   async aggProductCart(cartId, productId, quantity = 1) {
     try {
       const cart = await this.getCartById(cartId);
+      if (!cart) {
+        throw new Error("El carrito no se encontro!!");
+      }
+
       const existProduct = cart.products.find(
-        (item) => item.product.toString() === productId
+        (item) => item.product._id.toString() === productId
       );
 
       if (existProduct) {
@@ -65,12 +69,14 @@ class CartRepository {
       if (!cart) {
         throw new Error("Carrito no encontrado");
       }
-            cart.products = cart.products.filter(item => item.product._id.toString() !== productId);
-               await cart.save();
-                 return cart;
-              } catch (error) {
-            throw new Error("Error");
-              }
+      cart.products = cart.products.filter(
+        (item) => item.product._id.toString() !== productId
+      );
+      await cart.save();
+      return cart;
+    } catch (error) {
+      throw new Error("Error");
+    }
     //   const updatedProducts = cart.products.filter(
     //     (item) => item.product.toString() !== productId
     //   );
@@ -109,7 +115,6 @@ class CartRepository {
     }
   }
 
-
   async updateProductQuantity(cartId, productId, newQuantity) {
     try {
       const cart = await CartModel.findById(cartId);
@@ -119,7 +124,7 @@ class CartRepository {
       }
 
       const productToUpdate = cart.products.findIndex(
-        (item) => item.product.toString() === productId
+        (item) => item.product._id.toString() === productId
       );
 
       if (productToUpdate !== -1) {

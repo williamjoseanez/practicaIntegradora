@@ -13,7 +13,6 @@ const userSchema = mongoose.Schema({
   email: {
     type: String,
     required: true, // Ahora este campo es requerido
-    index: true,
     unique: true,
   },
   password: {
@@ -26,7 +25,6 @@ const userSchema = mongoose.Schema({
   },
   age: {
     type: Number,
-    required: true, // Ahora este campo es requerido
   },
   role: {
     type: String,

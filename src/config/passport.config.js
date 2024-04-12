@@ -9,14 +9,11 @@ const CartRepository = require("../repositories/cartRepository.js");
 const cartRepository = new CartRepository();
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const jwtStrategy = require("passport-jwt").Strategy;
+const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-require("dotenv").config();
+// require("dotenv").config();
 
 // console.log("Environment variables:", process.env);
-// const options = {
-//   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-//   secretOrKey: "secretKey", // Aquí se debe proporcionar tu clave secreta para firmar y verificar tokens JWT
-// };
 
 const cookieExtractor = (req) => {
   let token = null;
@@ -78,6 +75,9 @@ const initializePassport = () => {
       }
     )
   );
+
+  // const gitHubId = process.env.GITHUB_CLIENT_ID;
+  // const gitHubClienteSecret = process.env.GITHUB_CLIENT_SECRET;
 
   // console.log("GitHub Client ID:", process.env.GITHUB_CLIENT_ID);
   // console.log("GitHub Client Secret:", process.env.GITHUB_CLIENT_SECRET);
@@ -162,7 +162,7 @@ const initializePassport = () => {
     new jwtStrategy(
       {
         jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]), // Utiliza ExtractJwt.fromExtractors para extraer el token de la cookie
-        secretOrKey: "secretCoder",
+        secretOrKey: "coderhouse",
       },
       async (jwt_payload, done) => {
         try {
@@ -195,13 +195,13 @@ const initializePassport = () => {
   });
 };
 
-const crypto = require("crypto");
+// const crypto = require("crypto");
 
-const generateSecretKey = () => {
-  return crypto.randomBytes(10).toString("hex");
-};
+// const generateSecretKey = () => {
+//   return crypto.randomBytes(10).toString("hex");
+// };
 
-const secretKey = generateSecretKey();
+// const secretKey = generateSecretKey();
 // console.log(secretKey); // Imprime la clave secreta generada
 
 module.exports = initializePassport;

@@ -6,7 +6,7 @@ const cartController = new CartController();
 // 1
 router.post("/", cartController.createCart);
 // 2
-router.get("/:cid", cartController.findById);
+router.get("/:cid", cartController.getCartById);
 //3
 router.post("/:cid/products/:pid", cartController.aggProductCart);
 // 4// Agrego endpoint para eliminar un producto del carrito

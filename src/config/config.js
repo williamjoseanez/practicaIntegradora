@@ -13,6 +13,7 @@ const configObject = {
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
   FACEBOOK_APP_ID: process.env.FACEBOOK_APP_ID,
   FACEBOOK_APP_SECRET: process.env.FACEBOOK_APP_SECRET,
-};
-
+  ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD
+}
 module.exports = configObject;

@@ -9,22 +9,23 @@
   <nav>
     <ul>
       {{#if user}}
-        <li><a href="/profile">¡Bienvenido
-            {{user.first_name}}, Tu role:
-            {{user.role}}!</a></li>
-        <li><a href="/products">Tienda</a></li>
-        <li><a href="/realtimeproducts">Real Time Products</a></li>
-        <li><a href="/chat">Chat en Vivo</a></li>
+
+        <li> <h3>¡Bienvenido {{user.first_name}} {{user.last_name}}!</h3></li>
+        <li><p>Rol: {{user.role}}</p></li>
+        {{#if user.cart}}
+          <li>
+            <a href="/api/carts/carts/{{user.cart}}">🛒
+              <span>{{cartLength}}</span>
+            </a>
+          </li>
+
+        {{/if}}
+
         <li><a href="/api/sessions/logout">
-            <img src="/img/icons8-apagar-16.png" alt="Cerrar sesión" />
-          </a></li>
-      {{else}}
-        <li><a href="/profile">¡Bienvenido
-            {{user.first_name}}, Tu role:
-            {{user.role}}!</a></li>
-        <li><a href="/login">Iniciar session</a></li>
-        <li><a href="/register">Registrarse</a></li>
+            <img src="/img/icons8-apagar-16.png" alt="Cerrar sesión" /></a></li>
+
       {{/if}}
+
     </ul>
   </nav>
 </header>

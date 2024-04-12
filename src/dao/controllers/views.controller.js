@@ -1,9 +1,9 @@
 const ImagenModel = require("../mongoDb/modelsDB/image.models");
 const ProductRepository = require("../../repositories/productRepository.js");
-const products = new ProductRepository();
+const productRepository = new ProductRepository();
 const path = require("path");
+const CartModel = require("../mongoDb/modelsDB/cart.models.js");
 const fs = require("fs").promises;
-const UserDTO = require("../../dto/user.dto.js");
 const ProductModel = require("../mongoDb/modelsDB/products.model.js");
 
 class ViewsControllers {
@@ -24,6 +24,17 @@ class ViewsControllers {
     } catch (error) {
       console.error("Error al subir la imagen:", error);
       res.status(500).send("Error al subir la imagen");
+    }
+  }
+
+  // Ruta para la vista en tiempo real
+  async realtimeproducts(req, res) {
+    try {
+      res.render("realtimeproducts");
+    } catch {
+      res.status(500).json({
+        error: "error interno del servidor, siga participando",
+      });
     }
   }
 
@@ -57,30 +68,45 @@ class ViewsControllers {
     }
   }
 
-  async product(req, res) {
+  async products(req, res) {
     try {
-      const { page = 1, limit = 8 } = req.query;
-
-      const productsList = await products.getProducts({
+      const { page = 1, limit = 10 } = req.query;
+      const products = await productRepository.getProducts({
         page: parseInt(page),
         limit: parseInt(limit),
       });
 
-      const productsResult = productsList.docs.map((product) => {
-        const { _id, ...rest } = product.toObject();
-        return rest;
-      });
+      if (!products.docs) {
+        console.log(
+          "Error: No se encontraron documentos en los productos obtenidos"
+        );
+        return res.status(500).json({ error: "Error interno del servidor" });
+      }
+      const cart = req.session.user.cart ? req.session.user.cart : false;
 
+      const productsResult = products.docs.map((product) => {
+        const { _id, ...rest } = product.toObject();
+        return {
+          ...rest,
+          cart: cart,
+          _id: _id + "",
+        };
+      });
+      let cartunic;
+      if (cart) {
+        cartunic = await CartModel.findOne({ _id: req.session.user.cart });
+      }
       res.render("products", {
         status: "success",
         products: productsResult,
-        hasPrevPage: productsList.hasPrevPage,
-        hasNextPage: productsList.hasNextPage,
-        prevPage: productsList.prevPage,
-        nextPage: productsList.nextPage,
-        currentPage: productsList.page,
-        totalPages: productsList.totalPages,
+        hasPrevPage: products.hasPrevPage,
+        hasNextPage: products.hasNextPage,
+        prevPage: products.prevPage,
+        nextPage: products.nextPage,
+        currentPage: products.page,
+        totalPages: products.totalPages,
         user: req.session.user,
+        cartLength: cart ? cartunic.products.length : false,
       });
     } catch (error) {
       console.error("Error al obtener productos:", error);
@@ -88,12 +114,12 @@ class ViewsControllers {
     }
   }
   // detail
-  async detail(req, res) {
-    if (req.session.login) {
-      return res.redirect("/detalle");
-    }
-    res.render("detail");
-  }
+  // async detail(req, res) {
+  //   if (req.session.product) {
+  //     return res.redirect("/detalle");
+  //   }
+  //   res.render("detail");
+  // }
 
   //Login
   async login(req, res) {
@@ -111,33 +137,11 @@ class ViewsControllers {
   }
 
   //Perfil
-
   async profile(req, res) {
-    if (!req.session.user) {
-      return res
-        .status(401)
-        .json({ status: "error", message: "sin sesion activa" });
+    if (!req.session.login) {
+      return res.redirect("/login");
     }
-
-    //Con DTO:
-    const userDto = new UserDTO(
-      req.session.user.first_name || "",
-      req.session.user.last_name || "",
-      req.session.user.role || ""
-    );
-    const isAdmin = req.session.user.role === "admin";
-    res.render("profile", { user: userDto, isAdmin });
-  }
-
-  // Ruta para la vista en tiempo real
-  async realtimeproducts(req, res) {
-    try {
-      res.render("realtimeproducts");
-    } catch {
-      res.status(500).json({
-        error: "error interno del servidor, siga participando",
-      });
-    }
+    res.render("profile", { user: req.session.user });
   }
 
   // chat
