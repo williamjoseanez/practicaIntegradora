@@ -10,18 +10,8 @@ class CartRepository {
       console.log("Error al crear el nuevo carrito de compra");
     }
   }
-  // async getAllCarts() {
-  //   try {
-  //     // Utilizo el método find() de Mongoose para obtener todos los carritos
-  //     const allCarts = await CartModel.find();
-  //     return allCarts;
-  //   } catch (error) {
-  //     console.error("Error al obtener todos los carritos:", error);
-  //     throw error;
-  //   }
-  // }
 
-  async getCartById(cartId) {
+  async getProductToCart(cartId) {
     try {
       const cart = await CartModel.findById(cartId);
       if (!cart) {
@@ -34,35 +24,30 @@ class CartRepository {
       throw error;
     }
   }
-
-  async aggProductCart(cartId, productId, quantity = 1) {
+  async aggProduct(cartId, productId, quantity = 1) {
     try {
-      const cart = await this.getCartById(cartId);
-      if (!cart) {
-        throw new Error("El carrito no se encontro!!");
-      }
+        const carrito = await this.getProductToCart(cartId);
+        const existeProducto = carrito.products.find(item => item.product._id.toString() === productId);
 
-      const existProduct = cart.products.find(
-        (item) => item.product._id.toString() === productId
-      );
+        if (existeProducto) {
+            existeProducto.quantity += quantity;
+        } else {
+            carrito.products.push({ product: productId, quantity });
+        }
 
-      if (existProduct) {
-        existProduct.quantity += quantity;
-      } else {
-        cart.products.push({ product: productId, quantity });
-      }
+        //Vamos a marcar la propiedad "products" como modificada antes de guardar: 
+        carrito.markModified("products");
 
-      cart.markModified("products");
-
-      await cart.save();
-      return cart;
+        await carrito.save();
+        return carrito;
     } catch (error) {
-      console.log("error al agregar un producto", error);
+        throw new Error("Error");
     }
-  }
+}
+
 
   // remueve un producto del carrito
-  async removeProductFromCart(cartId, productId) {
+  async deletProduct(cartId, productId) {
     try {
       const cart = await CartModel.findById(cartId);
 
@@ -77,23 +62,7 @@ class CartRepository {
     } catch (error) {
       throw new Error("Error");
     }
-    //   const updatedProducts = cart.products.filter(
-    //     (item) => item.product.toString() !== productId
-    //   );
-    //   cart.products = updatedProducts;
-
-    //  //   cart.markModified("products");
-
-    //   await cart.save();
-    //   return cart;
-    // } catch (error) {
-    //   console.error(
-    //     "Error al intentar eliminar un producto del carrito",
-    //     error
-    //   );
-    //   throw error;
-    // }
-  }
+   }
 
   // funcion para vaciar el carrito
   async updateCart(cartId, updatedProducts) {

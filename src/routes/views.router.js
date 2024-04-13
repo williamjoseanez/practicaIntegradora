@@ -8,6 +8,8 @@ const checkUserRole = require("../middleware/checckrole.js");
 // Configura Passport.js - Asegúrate de que passport esté correctamente configurado en tu aplicación
 require("../config/passport.config")(passport);
 
+
+router.get("/carts/:cid", viewsController.Cart);
 // POST - Agregar un nuevo producto
 router.post("/upload", viewsController.upload);
 // delet imagen rutinng

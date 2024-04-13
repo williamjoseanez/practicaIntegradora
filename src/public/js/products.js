@@ -30,6 +30,6 @@ document.querySelectorAll('#btnSend').forEach((button) => {
     });
   };
   
-  function agregarAlerta(txt) {
+  function addAlert(txt) {
     alert(`¡${txt}!`);
   }

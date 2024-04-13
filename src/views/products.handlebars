@@ -28,9 +28,9 @@
           </form> --}}
         <div class="contenedor-boton">
             {{#if this.cart}}
-                <button class="boton-producto" type="submit" id="btnSend" value="carts/{{this.cart}}/product/{{this._id}}">Agregar al Carrito</button>
+                <button type="submit" id="btnSend" value="carts/{{this.cart}}/product/{{this._id}}">Agregar al Carrito</button>
             {{else}}
-                <button class="boton-producto" type="submit" onclick="agregarAlerta('No puedes porque eres admin')">Agregar al Carrito</button>
+                <button  type="submit" onclick="addAlert('No puedes porque eres admin')">Agregar al Carrito</button>
             {{/if}}
         </div>
    </div>

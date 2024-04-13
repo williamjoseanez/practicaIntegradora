@@ -2,16 +2,16 @@ const socket = io();
 
 socket.on("products", (data) => {
   if (Array.isArray(data) && data.length > 0) {
-    renderProductos(data);
+    renderProducts(data);
   } else {
     console.error("Received data is not a valid array:", data);
   }
 });
 
-const renderProductos = (products) => {
-  console.log("Received data:", products);
-  const contenedorProductos = document.getElementById("contenedorProductos");
-  contenedorProductos.innerHTML = "";
+const renderProducts = (products) => {
+  
+  const productContainer = document.getElementById("productContainer");
+  productContainer.innerHTML = "";
 
   products.forEach((product) => {
     const card = document.createElement("div");
@@ -25,7 +25,7 @@ const renderProductos = (products) => {
       <p>Precio $ ${product.price}</p>
       <button onclick="confirmarEliminarProducto('${product.id}')">Eliminar Producto</button>`;
 
-    contenedorProductos.appendChild(card);
+    productContainer.appendChild(card);
 
     card.querySelector("button").addEventListener("click", () => {
       eliminarProducto(product.id);
@@ -33,7 +33,7 @@ const renderProductos = (products) => {
   });
 };
 
-const eliminarProducto = (id) => {
+const deletProduct = (id) => {
   Swal.fire({
     title: "¿Estás seguro?",
     text: "Esta acción no se puede deshacer",
@@ -46,17 +46,17 @@ const eliminarProducto = (id) => {
   }).then((result) => {
     if (result.isConfirmed) {
       // Si se confirma, elimino el producto
-      socket.emit("eliminarProducto", id);
+      socket.emit("deletProduct", id);
     }
   });
 
   // console.log('Eliminando producto con id:', id);
 };
 
-socket.on("eliminarProducto", (id) => {
+socket.on("deletproduct", (id) => {
   // Aquí elimino el producto del lado del cliente
   const remainingProducts = products.filter((product) => product.id !== id);
-  renderProductos(remainingProducts);
+  renderProducts(remainingProducts);
 });
 
 /////////////////////////////Desde aqui esta el codigo para el formulario//////////////
@@ -92,7 +92,7 @@ document.getElementById("btnEnviar").addEventListener("click", () => {
     }
 
     // Aquí llamo a mi función para agregar el producto
-    agregarProducto();
+    aggProduct();
 
     // Muestro mensaje de éxito con SweetAlert
     Swal.fire({
@@ -106,7 +106,7 @@ document.getElementById("btnEnviar").addEventListener("click", () => {
 });
 
 // Función para agregar un producto
-const agregarProducto = () => {
+const aggProduct = () => {
   const product = {
     title: document.getElementById("title").value,
     description: document.getElementById("description").value,
@@ -118,7 +118,7 @@ const agregarProducto = () => {
     status: document.getElementById("status").value === "true",
   };
 
-  socket.emit("agregarProducto", product);
+  socket.emit("aggProduct", product);
 
   // Después de enviar el producto, limpio los campos del formulario
   document.getElementById("title").value = "";

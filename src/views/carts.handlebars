@@ -11,14 +11,14 @@
             <h5 class="card-title">Producto: {{this.product.title}}</h5>
             <p class="card-text">Cantidad: {{this.quantity}}</p>
             <p class="card-text">Precio: ${{this.product.totalPrice}}</p>
-            <button onclick="emptyCart('{{this.cartId}}', '{{this.product._id}}')"
+            <button onclick="deletProduct('{{this.cartId}}', '{{this.product._id}}')"
                 class="btn btn-danger">Eliminar</button>
         </div>
     </div>
     {{/each}}
 </div>
 
-<button onclick="deletCart('{{cartId}}')" class="btn btn-danger">Vaciar Carrito</button>
+<button onclick="emptyCart('{{cartId}}')" class="btn btn-danger">Vaciar Carrito</button>
 <h3 class="mt-2">Total de la compra: ${{totalCompra}}</h3>
 
 

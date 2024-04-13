@@ -18,11 +18,11 @@ class CartController {
     }
   }
 
-  async getCartById(req, res) {
+  async getProductTheCart(req, res) {
     const cartId = req.params.cid;
 
     try {
-      const cart = await cartRepository.getCartById(cartId);
+      const cart = await cartRepository.getProductToCart(cartId);
 
       if (!cart) {
         console.log("No existe ese carrito con el id");
@@ -38,13 +38,13 @@ class CartController {
   //3
 
   // aqui iba cartManager
-  async aggProductCart(req, res) {
+  async aggProductInTheCart(req, res) {
     const cartId = req.params.cid;
     const productId = req.params.pid;
     const quantity = req.body.quantity || 1;
 
     try {
-      const updateCart = await cartRepository.aggProductCart(
+      const updateCart = await cartRepository.aggProduct(
         cartId,
         productId,
         quantity
@@ -67,10 +67,7 @@ class CartController {
     const productId = req.params.pid;
 
     try {
-      const updatedCart = await cartRepository.removeProductFromCart(
-        cartId,
-        productId
-      );
+      const updatedCart = await cartRepository.deletProduct(cartId, productId);
       res.json({
         status: "success",
         message: "Producto eliminado del carrito correctamente",
@@ -153,35 +150,12 @@ class CartController {
       res.status(500).json({ error: "Error del servidor" });
     }
   }
-  // ///////////////////////////ruta estaba en el views.router para controlar
-  async cartsCid(req, res) {
-    const cartId = req.params.cid;
 
-    try {
-      const cart = await cartRepository.getCartById(cartId);
-
-      if (!cart) {
-        console.log("No existe ese carrito con el id");
-        return res.status(404).json({ error: "Carrito no encontrado" });
-      }
-
-      const productsInTheCart = cart.products.map((item) => ({
-        product: item.product.toObject(),
-        //Lo convertimos a objeto para pasar las restricciones de Exp Handlebars.
-        quantity: item.quantity,
-      }));
-
-      res.render("carts", { products: productsInTheCart });
-    } catch (error) {
-      console.error("Error al obtener el carrito", error);
-      res.status(500).json({ error: "Error interno del servidor" });
-    }
-  }
   async finalizePurchase(req, res) {
     const cartId = req.params.cid;
     try {
       // Obtener el carrito y sus productos
-      const cart = await cartRepository.findById(cartId);
+      const cart = await cartRepository.getProductToCart(cartId);
       const products = cart.products;
 
       // Inicializar un arreglo para almacenar los productos no disponibles

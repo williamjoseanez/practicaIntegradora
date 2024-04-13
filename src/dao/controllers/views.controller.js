@@ -7,6 +7,92 @@ const fs = require("fs").promises;
 const ProductModel = require("../mongoDb/modelsDB/products.model.js");
 
 class ViewsControllers {
+  async products(req, res) {
+    try {
+      const { page = 1, limit = 10 } = req.query;
+      const products = await productRepository.getProducts({
+        page: parseInt(page),
+        limit: parseInt(limit),
+      
+      });
+
+         if (!products.docs) {
+        console.log(
+          "Error: No se encontraron documentos en los productos obtenidos"
+        );
+        return res.status(500).json({ error: "Error interno del servidor" });
+      }
+      const cart = req.session.user.cart ? req.session.user.cart : false;
+
+      const productsResult = products.docs.map((product) => {
+        const { _id, ...rest } = product.toObject();
+        return {
+          ...rest,
+          cart: cart,
+          _id: _id + "",
+        };
+      });
+
+      let cartunic;
+      if (cart) {
+        cartunic = await CartModel.findOne({ _id: req.session.user.cart });
+      }
+      res.render("products", {
+        status: "success",
+        products: productsResult,
+        hasPrevPage: products.hasPrevPage,
+        hasNextPage: products.hasNextPage,
+        prevPage: products.prevPage,
+        nextPage: products.nextPage,
+        currentPage: products.page,
+        totalPages: products.totalPages,
+        user: req.session.user,
+        cartLength: cart ? cartunic.products.length : false,
+      });
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+      res.status(500).json({ error: "Error al obtener productos." });
+    }
+  }
+
+  // /////////////////////////////////////////////////
+  async Cart(req, res) {
+    const cartId = req.params.cid;
+    try {
+      const cart = await cartRepository.getProductToCart(cartId);
+
+      if (!cart) {
+        console.log("No existe ese carrito con el id");
+        return res.status(404).json({ error: "Carrito no encontrado" });
+      }
+
+      let totalPurchase = 0;
+
+      const productInTheCart = carrito.products.map((item) => {
+        const product = item.product.toObject();
+        const quantity = item.quantity;
+        const totalPrice = product.price * quantity;
+
+        totalPurchase += totalPrice;
+
+        return {
+          product: { ...product, totalPrice },
+          quantity,
+          cartId,
+        };
+      });
+
+      res.render("carts", {
+        products: productInTheCart,
+        totalPurchase,
+        cartId,
+      });
+    } catch (error) {
+      console.error("Error al obtener el carrito", error);
+      res.status(500).json({ error: "Error interno del servidor" });
+    }
+  }
+
   // POST - Agregar un nuevo producto
   async upload(req, res) {
     try {
@@ -68,59 +154,7 @@ class ViewsControllers {
     }
   }
 
-  async products(req, res) {
-    try {
-      const { page = 1, limit = 10 } = req.query;
-      const products = await productRepository.getProducts({
-        page: parseInt(page),
-        limit: parseInt(limit),
-      });
-
-      if (!products.docs) {
-        console.log(
-          "Error: No se encontraron documentos en los productos obtenidos"
-        );
-        return res.status(500).json({ error: "Error interno del servidor" });
-      }
-      const cart = req.session.user.cart ? req.session.user.cart : false;
-
-      const productsResult = products.docs.map((product) => {
-        const { _id, ...rest } = product.toObject();
-        return {
-          ...rest,
-          cart: cart,
-          _id: _id + "",
-        };
-      });
-      let cartunic;
-      if (cart) {
-        cartunic = await CartModel.findOne({ _id: req.session.user.cart });
-      }
-      res.render("products", {
-        status: "success",
-        products: productsResult,
-        hasPrevPage: products.hasPrevPage,
-        hasNextPage: products.hasNextPage,
-        prevPage: products.prevPage,
-        nextPage: products.nextPage,
-        currentPage: products.page,
-        totalPages: products.totalPages,
-        user: req.session.user,
-        cartLength: cart ? cartunic.products.length : false,
-      });
-    } catch (error) {
-      console.error("Error al obtener productos:", error);
-      res.status(500).json({ error: "Error al obtener productos." });
-    }
-  }
-  // detail
-  // async detail(req, res) {
-  //   if (req.session.product) {
-  //     return res.redirect("/detalle");
-  //   }
-  //   res.render("detail");
-  // }
-
+  
   //Login
   async login(req, res) {
     if (req.session.login) {

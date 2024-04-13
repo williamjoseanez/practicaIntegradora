@@ -25,8 +25,8 @@ class SocketManager {
       });
 
       //Recibo el evento "agregarProducto"
-      socket.on("addProduct", async (product) => {
-        await productRepository.addProduct(product);
+      socket.on("aggProduct", async (product) => {
+        await productRepository.aggProduct(product);
         this.emitUpdatedProducts(socket);
       });
 
@@ -48,7 +48,7 @@ class SocketManager {
   }
 
   async emitUpdatedProducts(socket) {
-    socket.emit("productos", await productRepository.obtenerProductos());
+    socket.emit("products", await productRepository.getproduct());
   }
 }
 
