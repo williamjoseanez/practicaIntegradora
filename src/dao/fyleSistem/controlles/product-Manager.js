@@ -41,7 +41,7 @@ class ProductManager {
       !status ||
       !category
     ) {
-      console.log("Todos los campos son obligatorios");
+      // console.log("Todos los campos son obligatorios");
       return;
     }
     // validamos codigo unico
@@ -85,7 +85,7 @@ class ProductManager {
       const arrayProductos = await this.leerArchivo();
       return arrayProductos;
     } catch (error) {
-      console.log("Error al leer el archivo", error);
+      // console.log("Error al leer el archivo", error);
       throw error;
     }
   }
@@ -98,14 +98,14 @@ class ProductManager {
       );
 
       if (!productoBuscado) {
-        console.log("No se encontro el producto");
+        // console.log("No se encontro el producto");
         return null;
       } else {
-        console.log("producto encontrado ");
+        // console.log("producto encontrado ");
         return productoBuscado;
       }
     } catch (error) {
-      console.log("error al leer el archivo", error);
+      console.error("error al leer el archivo", error);
     }
   }
 
@@ -116,7 +116,7 @@ class ProductManager {
       const arrayProductos = JSON.parse(respuesta);
       return arrayProductos;
     } catch (error) {
-      console.log("error al leer un archivo", error);
+      console.error("error al leer un archivo", error);
     }
   }
 
@@ -140,10 +140,10 @@ class ProductManager {
         arrayProductos.splice(index, 1, productAtualizado);
         await this.guardarArchivo(arrayProductos);
       } else {
-        console.log("no se encontro el elemento a actualizar");
+        console.error("no se encontro el elemento a actualizar");
       }
     } catch (error) {
-      console.log("error al actualizar el producto", error);
+      console.error("error al actualizar el producto", error);
     }
   }
 

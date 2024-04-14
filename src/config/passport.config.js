@@ -7,10 +7,10 @@ const GitHubStrategy = require("passport-github2"); //Passport con GitHub
 const LocalStrategy = local.Strategy;
 const CartRepository = require("../repositories/cartRepository.js");
 const cartRepository = new CartRepository();
-const ExtractJwt = require("passport-jwt").ExtractJwt;
-const jwtStrategy = require("passport-jwt").Strategy;
-const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const jwt = require("passport-jwt");
+const JWTStrategy = jwt.Strategy;
+const ExtractJwt = jwt.ExtractJwt;
 // require("dotenv").config();
 
 // console.log("Environment variables:", process.env);
@@ -79,7 +79,7 @@ const initializePassport = () => {
   // const gitHubId = process.env.GITHUB_CLIENT_ID;
   // const gitHubClienteSecret = process.env.GITHUB_CLIENT_SECRET;
 
-  // console.log("GitHub Client ID:", process.env.GITHUB_CLIENT_ID);
+  // .log("GitHub Client ID:", process.env.GITHUB_CLIENT_ID);
   // console.log("GitHub Client Secret:", process.env.GITHUB_CLIENT_SECRET);
   // //////////////////////////////////Estategia GitHub
   passport.use(
@@ -159,7 +159,7 @@ const initializePassport = () => {
   // /////////////////////////////////////////////jwt
   passport.use(
     "jwt",
-    new jwtStrategy(
+    new JWTStrategy(
       {
         jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]), // Utiliza ExtractJwt.fromExtractors para extraer el token de la cookie
         secretOrKey: "coderhouse",

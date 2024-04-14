@@ -1,26 +1,81 @@
- {{>header}}
+    
+  {{>header}}
+      <h1>Cart</h1>
 
-<h1>Cart</h1>
+      <h1>Carrito de Compras</h1>
 
-<h1 class="text-center">Carrito de Compras</h1>
+      
+          {{#each products}}
+          <div class="card">
+              <div >
+                <img src="{{this.thumbnail}}" alt="{{this.title}}" />
+                  <h5 class="card-title">Producto: {{this.product.title}}</h5>
+                  <p class="card-text">Cantidad: {{this.quantity}}</p>
+                  <p class="card-text">Precio: ${{this.product.totalPrice}}</p>
+                  <button onclick="deleteProduct('{{../cartId}}', 
+                  '{{this.product._id}}')"
+                   class="btn btn-danger">Eliminar</button>
+                                     <button  class="color-button"
+                      type="button" onclick="window.location.href='/products'">Seguir comprando</button>
+              </div>
+          </div>
+          {{/each}}
+    
 
-<div class="card">
-    {{#each products}}
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">Producto: {{this.product.title}}</h5>
-            <p class="card-text">Cantidad: {{this.quantity}}</p>
-            <p class="card-text">Precio: ${{this.product.totalPrice}}</p>
-            <button onclick="deletProduct('{{this.cartId}}', '{{this.product._id}}')"
-                class="btn btn-danger">Eliminar</button>
-        </div>
-    </div>
-    {{/each}}
-</div>
-
-<button onclick="emptyCart('{{cartId}}')" class="btn btn-danger">Vaciar Carrito</button>
-<h3 class="mt-2">Total de la compra: ${{totalCompra}}</h3>
+      <button onclick="emptyCart('{{cartId}}')" class="btn btn-danger">Vaciar Carrito</button>
+      <h3 class="mt-2">Total de la compra: ${{totalPurchase}}</h3>
+      
+      <button onclick="endPurchase('{{cartId}}')">Terminar Compra</button>
 
 
 
-<script src="js/cart.js"></script>
+
+
+<script>
+    function deleteProduct(cartId, productId) {
+        {{!-- alert(cartId + " - " + productId); --}}
+        fetch(`/api/carts/${cartId}/products/${productId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al eliminar el producto del carrito');
+                }
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function emptyCart(cartId) {
+  fetch(`/api/carts/${cartId}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error al vaciar el carrito");
+      }
+      location.reload();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+function endPurchase(cartId) {
+  fetch(`/api/carts/${cartId}/purchase`, {
+    method: "POST",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error al finalizar la compra");
+      }
+      location.reload();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+    </script>
+
+{{!-- <script src="js/cart.js"></script> --}}

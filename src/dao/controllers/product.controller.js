@@ -11,7 +11,7 @@ class ProductController {
       await productRepository.aggProduct(newProduct);
       res.status(201).json({ message: "Producto agregado exitosamente" });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       res.status(500).json({ message: "Error al agregar el producto" });
     }
   }
@@ -74,7 +74,7 @@ class ProductController {
       await productRepository.updateProduct(id, productUpdate);
       res.json({ message: "Producto Actualizado Exitosamente" });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       res.status(500).json({ message: "Error al actualizar el producto" });
     }
   }
@@ -85,7 +85,7 @@ class ProductController {
       await productRepository.deletproduct(id);
       res.json({ message: "Producto eliminado exitosamente" });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       res.status(500).json({ message: "Error al eliminar el producto" });
     }
   }

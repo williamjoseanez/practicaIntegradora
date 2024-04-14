@@ -13,7 +13,7 @@ class CartController {
       const newCart = await cartRepository.createCart();
       res.json(newCart);
     } catch (error) {
-      console.error("Error al crear un nuevo carrito", error);
+      // console.error("Error al crear un nuevo carrito", error);
       res.status(500).json({ error: "Error del servidor" });
     }
   }
@@ -22,15 +22,15 @@ class CartController {
     const cartId = req.params.cid;
 
     try {
-      const cart = await cartRepository.getProductToCart(cartId);
+      let cart = await cartRepository.getProductToCart(cartId);
 
       if (!cart) {
-        console.log("No existe ese carrito con el id");
+        // console.log("No existe ese carrito con el id");
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
       res.json(cart.products);
     } catch (error) {
-      console.error("Error al querer obtener el Carrito", error);
+      // console.error("Error al querer obtener el Carrito", error);
       res.status(500).json({ error: "Error del Servidor" });
     }
   }
@@ -49,11 +49,11 @@ class CartController {
         productId,
         quantity
       );
-      res.json(updateCart.products);
+      res.redirect(`/carts/${updateCart._id}`);
     } catch (error) {
       console.error(
-        "Error al intentar agregar un producto al carrito de compras",
-        error
+        // "Error al intentar agregar un producto al carrito de compras",
+        // error
       );
       res.status(500).json({ error: "Error del servidor" });
     }
@@ -74,7 +74,7 @@ class CartController {
         updatedCart,
       });
     } catch (error) {
-      console.error("Error al eliminar el producto del carrito", error);
+      // console.error("Error al eliminar el producto del carrito", error);
       res.status(500).json({
         status: "error",
         error: "Error interno del servidor",
@@ -95,7 +95,7 @@ class CartController {
       );
       res.json(updatedCart.products);
     } catch (error) {
-      console.error("Error al intentar actualizar el carrito", error);
+      // console.error("Error al intentar actualizar el carrito", error);
       res.status(500).json({ error: "Error del servidor al hacer put" });
     }
   }
@@ -120,10 +120,10 @@ class CartController {
         updatedCart,
       });
     } catch (error) {
-      console.error(
-        "Error al intentar actualizar la cantidad de ejemplares de un producto en el carrito",
-        error
-      );
+      // console.error(
+        // "Error al intentar actualizar la cantidad de ejemplares de un producto en el carrito",
+        // error
+      // );
       res.status(500).json({ error: "Error del servidor" });
     }
   }
@@ -143,10 +143,10 @@ class CartController {
         updatedCart,
       });
     } catch (error) {
-      console.error(
-        "Error al intentar eliminar todos los productos del carrito",
-        error
-      );
+      // console.error(
+        // "Error al intentar eliminar todos los productos del carrito",
+        // error
+      // );
       res.status(500).json({ error: "Error del servidor" });
     }
   }
@@ -196,7 +196,7 @@ class CartController {
 
       res.status(200).json({ productsNotAvailable });
     } catch (error) {
-      console.error("Error al procesar la compra:", error);
+      // console.error("Error al procesar la compra:", error);
       res.status(500).json({ error: "Error interno del servidor" });
     }
   }

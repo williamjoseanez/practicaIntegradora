@@ -7,7 +7,7 @@ class CartManager {
       const allCarts = await CartModel.find();
       return allCarts;
     } catch (error) {
-      console.error("Error al obtener todos los carritos:", error);
+      // console.error("Error al obtener todos los carritos:", error);
       throw error;
     }
   }
@@ -26,7 +26,7 @@ class CartManager {
     try {
       const cart = await CartModel.findById(cartId);
       if (!cart) {
-        console.log("No existe ese carrito con el id");
+        // console.log("No existe ese carrito con el id");
         return null;
       }
 
@@ -54,7 +54,7 @@ class CartManager {
       await cart.save();
       return cart;
     } catch (error) {
-      console.log("error al agregar un producto", error);
+      throw error;
     }
   }
 
@@ -103,7 +103,7 @@ class CartManager {
       await cart.save();
       return cart;
     } catch (error) {
-      console.error("Error al intentar actualizar el carrito", error);
+      // console.error("Error al intentar actualizar el carrito", error);
       throw error;
     }
   }
@@ -130,10 +130,10 @@ class CartManager {
         throw new Error("Producto no encontrado en el carrito");
       }
     } catch (error) {
-      console.error(
-        "Error al actualizar la cantidad del producto en el carrito",
-        error
-      );
+      // console.error(
+      //   "Error al actualizar la cantidad del producto en el carrito",
+      //   error
+      // );
       throw error;
     }
   }
@@ -152,7 +152,7 @@ class CartManager {
 
       return cart;
     } catch (error) {
-      console.error("Error al limpiar el carrito", error);
+      // console.error("Error al limpiar el carrito", error);
       throw error;
     }
   }

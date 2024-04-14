@@ -8,7 +8,6 @@ const checkUserRole = require("../middleware/checckrole.js");
 // Configura Passport.js - Asegúrate de que passport esté correctamente configurado en tu aplicación
 require("../config/passport.config")(passport);
 
-
 router.get("/carts/:cid", viewsController.Cart);
 // POST - Agregar un nuevo producto
 router.post("/upload", viewsController.upload);
@@ -17,13 +16,19 @@ router.get("/image/:id/delete", viewsController.delete);
 // Ruta para mostrar los detalles del producto
 router.get("/productsdetail/:_id", viewsController.productsdetail);
 
-router.get("/products", viewsController.products);
+// router.get("/products", viewsController.products);
+
+router.get(
+  "/products",
+  passport.authenticate("jwt", { session: false }),
+  viewsController.products
+);
 //Login
 router.get("/login", viewsController.login);
 // Registro
 router.get("/register", viewsController.register);
 //Perfil
-router.get("/profile", viewsController.profile);
+// router.get("/profile", viewsController.profile);
 // ///////////////////////////////// Ruta para la vista en tiempo real
 router.get(
   "/realtimeproducts",

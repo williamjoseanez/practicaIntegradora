@@ -15,14 +15,14 @@ class ProductManager {
       // validamos cada campo
 
       if (!title || !description || !price || !code || !stock || !category) {
-        console.log("Todos los campos son obligatorios");
+        // console.log("Todos los campos son obligatorios");
         return;
       }
       // validamos codigo unico
 
       const existingProduct = await ProductsModel.findOne({ code: code });
       if (existingProduct) {
-        console.log("El código debe ser único, ya está siendo utilizado");
+        // console.log("El código debe ser único, ya está siendo utilizado");
         return;
       }
 
@@ -43,7 +43,7 @@ class ProductManager {
 
       await newProduct.save();
     } catch (error) {
-      console.log("error al agregar el producto", error);
+      // console.log("error al agregar el producto", error);
       throw error;
     }
   }
@@ -96,7 +96,7 @@ class ProductManager {
           : null,
       };
     } catch (error) {
-      console.log("Error al obtener los productos", error);
+      // console.log("Error al obtener los productos", error);
       throw error;
     }
   }
@@ -106,13 +106,13 @@ class ProductManager {
       const product = await ProductsModel.findById(id);
 
       if (!product) {
-        console.log(`No se ha encontrado el producto con ID "${id}"`);
+        // console.log(`No se ha encontrado el producto con ID "${id}"`);
         return null;
       }
-      console.log("producto Encontrado");
+      // console.log("producto Encontrado");
       return product;
     } catch (error) {
-      console.log("Error al buscar el producto por ID");
+      throw error;
     }
   }
 
@@ -124,14 +124,14 @@ class ProductManager {
       );
 
       if (!productUpdate) {
-        console.log("El producto no existe");
+        // console.log("El producto no existe");
         return null;
       }
 
-      console.log("producto actializado con exito");
+      // console.log("producto actializado con exito");
       return productUpdate;
     } catch (error) {
-      console.log("error al actualizar el producto", error);
+      throw error;
     }
   }
   async deletproduct(id) {
@@ -139,13 +139,13 @@ class ProductManager {
       const productDelete = await ProductsModel.findByIdAndDelete(id);
 
       if (!productDelete) {
-        console.log("No se ha podido eliminar el producto");
+        // console.log("No se ha podido eliminar el producto");
         return null;
       }
-      console.log("Se ha eliminado correctamente el producto");
+      // console.log("Se ha eliminado correctamente el producto");
       return null;
     } catch (error) {
-      console.log("error al borrar el producto", error);
+      // console.log("error al borrar el producto", error);
       throw error;
     }
   }

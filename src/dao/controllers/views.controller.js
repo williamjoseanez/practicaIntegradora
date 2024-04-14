@@ -5,70 +5,64 @@ const path = require("path");
 const CartModel = require("../mongoDb/modelsDB/cart.models.js");
 const fs = require("fs").promises;
 const ProductModel = require("../mongoDb/modelsDB/products.model.js");
+const CartRepository = require("../../repositories/cartRepository.js");
+const cartRepository = new CartRepository();
 
 class ViewsControllers {
   async products(req, res) {
     try {
       const { page = 1, limit = 10 } = req.query;
-      const products = await productRepository.getProducts({
-        page: parseInt(page),
-        limit: parseInt(limit),
+      const skip = (page - 1) * limit;
+      const products = await ProductModel.find().skip(skip).limit(limit);
+      const totalProducts = await ProductModel.countDocuments();
+      const totalPages = Math.ceil(totalProducts / limit);
+      const hasPrevPage = page > 1;
+      const hasNextPage = page < totalPages;
       
+      const nuevoArray = products.map((product) => {
+        const { ...rest } = product.toObject();
+        return { ...rest }; // Agregar el ID al objeto
       });
 
-         if (!products.docs) {
-        console.log(
-          "Error: No se encontraron documentos en los productos obtenidos"
-        );
-        return res.status(500).json({ error: "Error interno del servidor" });
+      let cartId = null;
+      if (req.user && req.user.cart) {
+        cartId = req.user.cart.toString();
       }
-      const cart = req.session.user.cart ? req.session.user.cart : false;
 
-      const productsResult = products.docs.map((product) => {
-        const { _id, ...rest } = product.toObject();
-        return {
-          ...rest,
-          cart: cart,
-          _id: _id + "",
-        };
-      });
-
-      let cartunic;
-      if (cart) {
-        cartunic = await CartModel.findOne({ _id: req.session.user.cart });
-      }
       res.render("products", {
-        status: "success",
-        products: productsResult,
-        hasPrevPage: products.hasPrevPage,
-        hasNextPage: products.hasNextPage,
-        prevPage: products.prevPage,
-        nextPage: products.nextPage,
-        currentPage: products.page,
-        totalPages: products.totalPages,
-        user: req.session.user,
-        cartLength: cart ? cartunic.products.length : false,
+        products: nuevoArray,
+        hasPrevPage,
+        hasNextPage,
+        prevPage: page > 1 ? parseInt(page) - 1 : null,
+        nextPage: page < totalPages ? parseInt(page) + 1 : null,
+        currentPage: parseInt(page),
+        totalPages,
+        cartId,
       });
     } catch (error) {
-      console.error("Error al obtener productos:", error);
-      res.status(500).json({ error: "Error al obtener productos." });
+      console.error("Error al obtener productos", error);
+      res.status(500).json({
+        status: "error",
+        error: "Error interno del servidor",
+      });
     }
   }
+
 
   // /////////////////////////////////////////////////
   async Cart(req, res) {
     const cartId = req.params.cid;
     try {
-      const cart = await cartRepository.getProductToCart(cartId);
+      const cart = await cartRepository.getCartById(cartId);
 
       if (!cart) {
-        console.log("No existe ese carrito con el id");
+        // console.log("No existe ese carrito con el id");
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
 
       let totalPurchase = 0;
 
-      const productInTheCart = carrito.products.map((item) => {
+      const productInTheCart = cart.products.map((item) => {
         const product = item.product.toObject();
         const quantity = item.quantity;
         const totalPrice = product.price * quantity;
@@ -88,7 +82,7 @@ class ViewsControllers {
         cartId,
       });
     } catch (error) {
-      console.error("Error al obtener el carrito", error);
+      // console.error("Error al obtener el carrito", error);
       res.status(500).json({ error: "Error interno del servidor" });
     }
   }
@@ -108,7 +102,7 @@ class ViewsControllers {
       // Redireccionar a home con mensaje de éxito
       res.redirect("upload");
     } catch (error) {
-      console.error("Error al subir la imagen:", error);
+      // console.error("Error al subir la imagen:", error);
       res.status(500).send("Error al subir la imagen");
     }
   }
@@ -144,17 +138,18 @@ class ViewsControllers {
         res.status(404).send("Producto no encontrado");
         return;
       }
+      // Imprimir el objeto product en la consola del servidor para verificar su estructura
+      // console.log("Producto encontrado:", product);
 
       // Renderizo la plantilla de detalles del producto y paso los datos del producto
       res.render("detail", { product });
     } catch (error) {
       // Manejo cualquier error que ocurra durante la búsqueda del producto
-      console.error("Error al obtener los detalles del producto:", error);
+      // console.error("Error al obtener los detalles del producto:", error);
       res.status(500).send("Error interno del servidor");
     }
   }
 
-  
   //Login
   async login(req, res) {
     if (req.session.login) {

@@ -5,7 +5,7 @@ const SessionController = require("../dao/controllers/session.controller.js");
 const sessionController = new SessionController();
 
 // login
-router.post("/login", sessionController.login);
+// router.post("/login", sessionController.login);
 
 //Logout - GET
 router.get("/logout", sessionController.logout);
@@ -55,7 +55,7 @@ router.get(
       }
     } catch (error) {
       // Manejo de errores aquí
-      console.error(error);
+      // console.error(error);
       res.status(500).send("Internal Server Error");
     }
   }

@@ -1,13 +1,13 @@
-// empezamos importando
 const express = require("express");
 const productRouter = require("./routes/products.router");
 const cartsRouter = require("./routes/carts.router");
 const viewsRouter = require("./routes/views.router");
 const multer = require("multer");
-const exphbs = require("express-handlebars"); // motor de plantilla handlebars
-const PUERTO = 8080; // creo  puerto
+const exphbs = require("express-handlebars");
+const PUERTO = 8080;
 require("../src/database.js");
 
+const path = require("path");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -16,15 +16,28 @@ const sessionRouter = require("./routes/sessions.router.js");
 const passport = require("passport");
 const initializePassport = require("./config/passport.config.js");
 
-const app = express(); // creamos app
+const app = express();
 
-// configuro en moto de plantillas handlebars
 app.engine("handlebars", exphbs.engine());
 app.set("view engine", "handlebars");
-app.set("views", "./src/views"); // defino el directorio donde se encuentran las vistas
+app.set("views", "./src/views");
 
-// creo midlewares
-app.use(express.static("./src/public"));
+// Middleware para servir archivos estáticos (CSS, imágenes, etc.)
+app.use(express.static(path.join(__dirname, "public")));
+
+// Middleware para servir archivos CSS con el tipo MIME correcto
+app.use(
+  ["/carts/css", "/api/users/profile"],
+  express.static(path.join(__dirname, "public", "css"), {
+    setHeaders: (res, path, stat) => {
+      // Establecer el tipo MIME de los archivos CSS como text/css
+      if (path.endsWith(".css")) {
+        res.set("Content-Type", "text/css");
+      }
+    },
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -41,7 +54,6 @@ app.use(
   })
 );
 
-// configuro multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./src/public/uploads");
@@ -53,10 +65,9 @@ const storage = multer.diskStorage({
 
 app.use(multer({ storage }).single("image"));
 
-// routing desde routes handlebars
 app.use("/", viewsRouter);
 app.use("/api/products", productRouter);
-app.use("/api/cart", cartsRouter);
+app.use("/api/carts", cartsRouter);
 app.use("/api/users", userRouter);
 app.use("/api/sessions", sessionRouter);
 
@@ -64,11 +75,9 @@ initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-// pongo a escuchar al segvidor
 const httpServer = app.listen(PUERTO, () => {
   console.log(`Escuchado http://localhost:${PUERTO}`);
 });
 
-///Websockets:
 const SocketManager = require("./sockets/socketmanager.js");
 new SocketManager(httpServer);

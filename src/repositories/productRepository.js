@@ -38,7 +38,7 @@ class ProductRepository {
 
       await newProduct.save();
     } catch (error) {
-      console.error("Error al agregar el producto:", error);
+      // console.error("Error al agregar el producto:", error);
       throw error;
     }
   }
@@ -91,7 +91,7 @@ class ProductRepository {
           : null,
       };
     } catch (error) {
-      console.log("Error al obtener los productos", error);
+      // console.log("Error al obtener los productos", error);
       throw error;
     }
   }
@@ -101,7 +101,7 @@ class ProductRepository {
       const product = await ProductsModel.findById(id);
 
       if (!product) {
-        console.log(`No se ha encontrado el producto con ID "${id}"`);
+        // console.log(`No se ha encontrado el producto con ID "${id}"`);
         return null;
       }
       return product;
@@ -115,29 +115,30 @@ class ProductRepository {
       const Update = await ProductsModel.findByIdAndUpdate(id, productUpdated);
 
       if (!Update) {
-        console.log("El producto no existe");
+        // console.log("El producto no existe");
         return null;
       }
 
-      console.log("producto actualizado con exito");
+      // console.log("producto actualizado con exito");
       return Update;
     } catch (error) {
-      console.log("error al actualizar el producto", error);
+      // console.log("error al actualizar el producto", error);
       throw new Error("Error");
     }
   }
+
   async deletproduct(id) {
     try {
       const productDelete = await ProductsModel.findByIdAndDelete(id);
 
       if (!productDelete) {
-        console.log("No se ha podido eliminar el producto");
+        // console.log("No se ha podido eliminar el producto");
         return null;
       }
-      console.log("Se ha eliminado correctamente el producto");
+      // console.log("Se ha eliminado correctamente el producto");
       return productDelete;
     } catch (error) {
-      console.log("error al borrar el producto", error);
+      // console.log("error al borrar el producto", error);
       throw new Error("Error");
     }
   }

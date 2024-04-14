@@ -3,7 +3,6 @@ const MessageModel = require("../dao/mongoDb/modelsDB/message.model");
 const ProductRepository = require("../repositories/productRepository");
 const productRepository = new ProductRepository();
 
-
 class SocketManager {
   constructor(httpServer) {
     this.io = socket(httpServer);
@@ -12,7 +11,7 @@ class SocketManager {
 
   async initSocketEvents() {
     this.io.on("connection", async (socket) => {
-      console.log("Un cliente se conectó");
+      // console.log("Un cliente se conectó");
 
       socket.emit("products", await productRepository.getProducts());
 
@@ -21,7 +20,6 @@ class SocketManager {
         await productRepository.deletproduct(id);
         io.sockets.emit("products", productRepository.getProducts());
         // this.emitUpdatedProducts(socket); si hay error colocar esta linea y comentar la anterior
-
       });
 
       //Recibo el evento "agregarProducto"
@@ -30,11 +28,21 @@ class SocketManager {
         this.emitUpdatedProducts(socket);
       });
 
+      // const productList = await productRepository.getProducts();
+      // if (Array.isArray(productList) && productList.length > 0) {
+      //   socket.emit("products", productList);
+      // } else {
+      //   console.error("Invalid product data:", productList);
+      // }
       const productList = await productRepository.getProducts();
-      if (Array.isArray(productList) && productList.length > 0) {
-        socket.emit("products", productList);
+      if (
+        productList &&
+        Array.isArray(productList.docs) &&
+        productList.docs.length > 0
+      ) {
+        socket.emit("products", productList.docs);
       } else {
-        console.error("Invalid product data:", productList);
+        console.error("Datos de producto inválidos:", productList);
       }
 
       socket.emit("products", productList);

@@ -10,45 +10,61 @@ class CartRepository {
       console.log("Error al crear el nuevo carrito de compra");
     }
   }
-
-  async getProductToCart(cartId) {
+  // /////////////////////////////////////////////////////////////////////
+  //  async getProductToCart(cartId) {
+  //   try {
+  //     const cart = await CartModel.findById(cartId);
+  //     if (!cart) {
+  //       console.log("No existe ese carrito con el id");
+  //       return null;
+  //     }
+  //     return cart;
+  //   } catch (error) {
+  //     console.error("Error al encontrar el carrito por ID:", error);
+  //     throw error;
+  //   }
+  // }
+  // /////////////////////////////////////////////////////////////////////
+  async getCartById(cartId) {
     try {
       const cart = await CartModel.findById(cartId);
       if (!cart) {
-        console.log("No existe ese carrito con el id");
+        // console.log("No existe ese carrito con el id");
         return null;
       }
       return cart;
     } catch (error) {
-      console.error("Error al encontrar el carrito por ID:", error);
+      // console.error("Error al encontrar el carrito por ID:", error);
       throw error;
     }
   }
+  // ///////////////////////////////////////////////////////////////////
   async aggProduct(cartId, productId, quantity = 1) {
     try {
-        const carrito = await this.getProductToCart(cartId);
-        const existeProducto = carrito.products.find(item => item.product._id.toString() === productId);
+      const cart = await this.getCartById(cartId);
+      const existProduct = cart.products.find(
+        (item) => item.product._id.toString() === productId
+      );
 
-        if (existeProducto) {
-            existeProducto.quantity += quantity;
-        } else {
-            carrito.products.push({ product: productId, quantity });
-        }
+      if (existProduct) {
+        existProduct.quantity += quantity;
+      } else {
+        cart.products.push({ product: productId, quantity });
+      }
 
-        //Vamos a marcar la propiedad "products" como modificada antes de guardar: 
-        carrito.markModified("products");
+      //Vamos a marcar la propiedad "products" como modificada antes de guardar:
+      cart.markModified("products");
 
-        await carrito.save();
-        return carrito;
+      await cart.save();
+      return cart;
     } catch (error) {
-        throw new Error("Error");
+      throw new Error("Error");
     }
-}
-
-
+  }
+  // ///////////////////////////////////////////////////////////////////
   // remueve un producto del carrito
   async deletProduct(cartId, productId) {
-    try {
+     try {
       const cart = await CartModel.findById(cartId);
 
       if (!cart) {
@@ -62,8 +78,8 @@ class CartRepository {
     } catch (error) {
       throw new Error("Error");
     }
-   }
-
+  }
+  // /////////////////////////////////////////////////////////////////////
   // funcion para vaciar el carrito
   async updateCart(cartId, updatedProducts) {
     try {
@@ -79,11 +95,11 @@ class CartRepository {
       await cart.save();
       return cart;
     } catch (error) {
-      console.error("Error al intentar actualizar el carrito", error);
+      // console.error("Error al intentar actualizar el carrito", error);
       throw new Error("Error");
     }
   }
-
+  ///////////////////////////////////////////////////////////////////////
   async updateProductQuantity(cartId, productId, newQuantity) {
     try {
       const cart = await CartModel.findById(cartId);
@@ -107,14 +123,14 @@ class CartRepository {
         throw new Error("Producto no encontrado en el carrito");
       }
     } catch (error) {
-      console.error(
-        "Error al actualizar la cantidad del producto en el carrito",
-        error
-      );
+      // console.error(
+      //   "Error al actualizar la cantidad del producto en el carrito",
+      //   error
+      // );
       throw error;
     }
   }
-
+  ////////////////////////////////////////////////////////////////////////////
   async clearCart(cartId) {
     try {
       const cart = await CartModel.findByIdAndUpdate(
@@ -129,7 +145,7 @@ class CartRepository {
 
       return cart;
     } catch (error) {
-      console.error("Error al limpiar el carrito", error);
+      // console.error("Error al limpiar el carrito", error);
       throw error;
     }
   }

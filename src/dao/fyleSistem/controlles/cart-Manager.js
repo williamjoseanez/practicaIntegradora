@@ -17,7 +17,7 @@ class CartManager {
           this.ultId = Math.max(...this.carts.map((cart) => cart.id));
       }
     } catch (error) {
-      console.log(`Error reading file: ${error}`);
+      // console.log(`Error reading file: ${error}`);
       await this.saveCart();
     }
   }

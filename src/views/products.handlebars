@@ -20,19 +20,19 @@
       <p>Price: $ {{this.price}}</p>
       <p>Category: {{this.category}}</p>
       <p>Id: {{this._id}}</p>
-          {{!-- <form  action="/productsdetail/{{this._id}}" method="GET">
+          <form  action="/productsdetail/{{this._id}}" method="GET">
                    <button  type="submit">Detalles del Producto</button>
           </form>
-          <form  action="/api/carts/{{../cartId}}/products/{{_id}}" method="POST">
+          <form  action="/api/carts/{{../cartId}}/products/{{this._id}}" method="POST">
                    <button  type="submit">Agregar al Carrito</button>
-          </form> --}}
-        <div class="contenedor-boton">
+          </form>
+        {{!-- <div class="contenedor-boton">
             {{#if this.cart}}
-                <button type="submit" id="btnSend" value="carts/{{this.cart}}/product/{{this._id}}">Agregar al Carrito</button>
+                <button type="submit" id="btnSend" value="/{{this.cart}}/product/{{this._id}}">Agregar al Carrito</button>
             {{else}}
                 <button  type="submit" onclick="addAlert('No puedes porque eres admin')">Agregar al Carrito</button>
             {{/if}}
-        </div>
+        </div> --}}
    </div>
   {{/each}}
 </div>
