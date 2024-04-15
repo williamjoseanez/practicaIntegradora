@@ -27,7 +27,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware para servir archivos CSS con el tipo MIME correcto
 app.use(
-  ["/carts/css", "/api/users/profile"],
   express.static(path.join(__dirname, "public", "css"), {
     setHeaders: (res, path, stat) => {
       // Establecer el tipo MIME de los archivos CSS como text/css

@@ -1,23 +1,25 @@
  {{>header}}
 
-<h1>Bienvenidos a nuestro Chat 么Legowill</h1>
+        <h1>Bienvenidos a nuestro Chat 么Legowill</h1>
+        <divs>
 
-<div>
-  <input type="text" id="chatBox" />
+              <div class="card">
+                <input type="text" id="chatBox" placeholder="escribe tu mensaje" />
+              </div>
+
+              <div class="card">
+                <p id="messagesLogs"></p>
+              </div>
+
+              <button
+                class="color-button"
+                type="button"
+                onclick="window.location.href='http://localhost:8080'"
+              >
+                Volver a Inicio
+              </button>
+
 </div>
-
-<div>
-  <p id="messagesLogs"></p>
-</div>
-
-<button
-  class="color-button"
-  type="button"
-  onclick="window.location.href='http://localhost:8080'"
->
-  Volver a Inicio
-</button>
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"
