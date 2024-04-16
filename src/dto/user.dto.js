@@ -1,9 +1,9 @@
 class UserDTO {
-    constructor(firstName, lastName, role) {
-        this.nombre = firstName;
-        this.apellido = lastName;
-        this.role = role;
-    }
+  constructor(first_Name, last_Name, role) {
+    this.nombre = first_Name;
+    this.apellido = last_Name;
+    this.role = role;
+  }
 }
 
 module.exports = UserDTO;

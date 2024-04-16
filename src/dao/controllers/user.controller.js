@@ -81,6 +81,7 @@ class UserController {
       res.status(500).send("Error interno del servidor");
     }
   }
+
   // ////////////////////////////////////////////////////////
   //Perfil dto
   async profile(req, res) {
@@ -92,11 +93,13 @@ class UserController {
     const isAdmin = req.user.role === "admin";
     res.render("profile", { user: userDto, isAdmin });
   }
+
   // //////////////////////////////////////////////////////////
   async logout(req, res) {
     res.clearCookie("coderCookieToken");
     res.redirect("/login");
   }
+
   // //////////////////////////////////////////////////////
   async admin(req, res) {
     if (req.user.user.role !== "admin") {
@@ -104,6 +107,7 @@ class UserController {
     }
     res.render("admin");
   }
+
   // //////////////////////////////////////////////////////////
   async failedregister(req, res) {
     if (!req.user)

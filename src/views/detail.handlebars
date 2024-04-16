@@ -1,20 +1,9 @@
-{{#if product.thumbnail}}
-  <img src="{{ product.thumbnail }}" alt="{{ product.title }}">
-{{/if}}
-
-{{#if product.title}}
-  <h5 class="card-title">{{ product.title }}</h5>
-{{/if}}
-
-{{#if product.description}}
-  <p class="card-text">{{ product.description }}</p>
-{{/if}}
-
-{{#if product.price}}
-  <p class="card-text">Price: ${{ product.price }}</p>
-{{/if}}
-
-{{#if product.stock}}
-  <p class="card-text">Stock: {{ product.stock }}</p>
-{{/if}}
-
+{{>header}}
+<h1>Detalle del Producto</h1>
+<div class="card">
+  <p>title: {{product.title}}</p>
+  <p>description:{{product.description}}</p>
+  <p>Precio: ${{product.price}}</p>
+  <p>Stock: {{product.stock}}</p>
+  {{!-- <img src="{{product.thumbnail}}" alt="{{product.title}}" /> --}}
+</div>

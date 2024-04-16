@@ -3,6 +3,7 @@ const router = express.Router();
 const CartController = require("../dao/controllers/cart.controllers.js");
 const cartController = new CartController();
 
+
 // 1
 router.post("/", cartController.createCart);
 // 2
@@ -17,6 +18,8 @@ router.put("/:cid", cartController.updateCart);
 router.put("/:cid/products/:pid", cartController.updateProductQuantity);
 // 7// // Agrego endpoint para eliminar todos los productos del carrito
 router.delete("/:cid", cartController.clearCart);
+
+router.post('/:cid/purchase', cartController.finishPurchase);
 
 
 module.exports = router;

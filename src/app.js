@@ -18,6 +18,8 @@ const initializePassport = require("./config/passport.config.js");
 
 const app = express();
 
+// Configuración de Handlebars
+
 app.engine("handlebars", exphbs.engine());
 app.set("view engine", "handlebars");
 app.set("views", "./src/views");

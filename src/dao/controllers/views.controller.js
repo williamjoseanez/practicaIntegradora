@@ -7,6 +7,9 @@ const fs = require("fs").promises;
 const ProductModel = require("../mongoDb/modelsDB/products.model.js");
 const CartRepository = require("../../repositories/cartRepository.js");
 const cartRepository = new CartRepository();
+const TicketRepository = require("../../repositories/ticketRepository.js");
+const ticketRepository = new TicketRepository();
+const UserModel = require("../mongoDb/modelsDB/user.model.js");
 
 class ViewsControllers {
   async products(req, res) {
@@ -18,7 +21,7 @@ class ViewsControllers {
       const totalPages = Math.ceil(totalProducts / limit);
       const hasPrevPage = page > 1;
       const hasNextPage = page < totalPages;
-      
+
       const nuevoArray = products.map((product) => {
         const { ...rest } = product.toObject();
         return { ...rest }; // Agregar el ID al objeto
@@ -47,7 +50,6 @@ class ViewsControllers {
       });
     }
   }
-
 
   // /////////////////////////////////////////////////
   async Cart(req, res) {
@@ -139,7 +141,7 @@ class ViewsControllers {
         return;
       }
       // Imprimir el objeto product en la consola del servidor para verificar su estructura
-      // console.log("Producto encontrado:", product);
+      console.log("Producto encontrado:", product);
 
       // Renderizo la plantilla de detalles del producto y paso los datos del producto
       res.render("detail", { product });
@@ -165,13 +167,13 @@ class ViewsControllers {
     res.render("register");
   }
 
-  //Perfil
-  async profile(req, res) {
-    if (!req.session.login) {
-      return res.redirect("/login");
-    }
-    res.render("profile", { user: req.session.user });
-  }
+  // //Perfil
+  // async profile(req, res) {
+  //   if (!req.session.login) {
+  //     return res.redirect("/login");
+  //   }
+  //   res.render("profile", { user: req.session.user });
+  // }
 
   // chat
   async chat(req, res) {
@@ -196,6 +198,31 @@ class ViewsControllers {
     });
 
     res.render("upload", { imagenes: newArrayImagenes });
+  }
+
+  async Purchase(req, res) {
+    try {
+      const cart = await cartRepository.getCartById(req.params.cid);
+      const ticket = await ticketRepository.getTicketById(req.params.tid);
+      const purchaser = await UserModel.findById(ticket.purchaser);
+      const products = cart.products;
+      const cartInfo = "Sin Stock, favor intentarlo mas tarde!!!";
+      const title = "Compra Finalizada";
+      const hasTicket = true;
+
+      res.render("carts", {
+        products,
+        cart,
+        ticket,
+        title,
+        cartInfo,
+        purchaser,
+        hasTicket,
+      });
+    } catch (error) {
+      console.error("Error al finalizar compra:", error);
+      res.status(500).json({ error: "Error interno del servidor" });
+    }
   }
 }
 

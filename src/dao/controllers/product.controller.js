@@ -19,7 +19,7 @@ class ProductController {
   async getProducts(req, res) {
     try {
       // Parsear los parámetros de consulta
-      const { limit = 10, page = 1, sort, query } = req.query;
+      const { limit = 8, page = 1, sort, query } = req.query;
 
       // Obtener la lista de productos
       const products = await productRepository.getProducts({

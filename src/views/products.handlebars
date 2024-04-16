@@ -26,13 +26,7 @@
           <form  action="/api/carts/{{../cartId}}/products/{{this._id}}" method="POST">
                    <button  type="submit">Agregar al Carrito</button>
           </form>
-        {{!-- <div class="contenedor-boton">
-            {{#if this.cart}}
-                <button type="submit" id="btnSend" value="/{{this.cart}}/product/{{this._id}}">Agregar al Carrito</button>
-            {{else}}
-                <button  type="submit" onclick="addAlert('No puedes porque eres admin')">Agregar al Carrito</button>
-            {{/if}}
-        </div> --}}
+ 
    </div>
   {{/each}}
 </div>

@@ -43,7 +43,7 @@ class ProductRepository {
     }
   }
 
-  async getProducts(limit = 10, page = 1, sort, query) {
+  async getProducts(limit = 8, page = 1, sort, query) {
     try {
       const skip = (page - 1) * limit;
 
@@ -101,7 +101,6 @@ class ProductRepository {
       const product = await ProductsModel.findById(id);
 
       if (!product) {
-        // console.log(`No se ha encontrado el producto con ID "${id}"`);
         return null;
       }
       return product;

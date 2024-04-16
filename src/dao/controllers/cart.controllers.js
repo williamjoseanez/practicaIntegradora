@@ -2,6 +2,8 @@ const CartRepository = require("../../repositories/cartRepository.js");
 const cartRepository = new CartRepository();
 const ProductRepository = require("../../repositories/productRepository.js");
 const productRepository = new ProductRepository();
+const TicketModel = require("../mongoDb/modelsDB/ticket.model.js");
+const UserModel = require("../mongoDb/modelsDB/user.model.js");
 const {
   generateUniqueCode,
   calculateTotal,
@@ -51,10 +53,11 @@ class CartController {
       );
       res.redirect(`/carts/${updateCart._id}`);
     } catch (error) {
-      console.error(
+      console
+        .error
         // "Error al intentar agregar un producto al carrito de compras",
         // error
-      );
+        ();
       res.status(500).json({ error: "Error del servidor" });
     }
   }
@@ -121,8 +124,8 @@ class CartController {
       });
     } catch (error) {
       // console.error(
-        // "Error al intentar actualizar la cantidad de ejemplares de un producto en el carrito",
-        // error
+      // "Error al intentar actualizar la cantidad de ejemplares de un producto en el carrito",
+      // error
       // );
       res.status(500).json({ error: "Error del servidor" });
     }
@@ -144,18 +147,18 @@ class CartController {
       });
     } catch (error) {
       // console.error(
-        // "Error al intentar eliminar todos los productos del carrito",
-        // error
+      // "Error al intentar eliminar todos los productos del carrito",
+      // error
       // );
       res.status(500).json({ error: "Error del servidor" });
     }
   }
 
-  async finalizePurchase(req, res) {
+  async finishPurchase(req, res) {
     const cartId = req.params.cid;
     try {
       // Obtener el carrito y sus productos
-      const cart = await cartRepository.getProductToCart(cartId);
+      const cart = await cartRepository.getCartById(cartId);
       const products = cart.products;
 
       // Inicializar un arreglo para almacenar los productos no disponibles
@@ -175,7 +178,8 @@ class CartController {
         }
       }
 
-      const userWithCart = await UserModel.findOne({ cart: cartId });
+      // const userWithCart = await UserModel.findOne({ cart: cartId });
+      const userWithCart = req.user;
 
       // Crear un ticket con los datos de la compra
       const ticket = new TicketModel({
@@ -194,9 +198,8 @@ class CartController {
       // Guardar el carrito actualizado en la base de datos
       await cart.save();
 
-      res.status(200).json({ productsNotAvailable });
+      res.status(200).json({ cartId: cart._id, ticketId: ticket._id });
     } catch (error) {
-      // console.error("Error al procesar la compra:", error);
       res.status(500).json({ error: "Error interno del servidor" });
     }
   }
