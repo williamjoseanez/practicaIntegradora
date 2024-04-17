@@ -15,7 +15,7 @@ class CartController {
       const newCart = await cartRepository.createCart();
       res.json(newCart);
     } catch (error) {
-      // console.error("Error al crear un nuevo carrito", error);
+      // req.logger.error("Error al crear un nuevo carrito", error);
       res.status(500).json({ error: "Error del servidor" });
     }
   }
@@ -32,7 +32,7 @@ class CartController {
       }
       res.json(cart.products);
     } catch (error) {
-      // console.error("Error al querer obtener el Carrito", error);
+      // req.logger.error("Error al querer obtener el Carrito", error);
       res.status(500).json({ error: "Error del Servidor" });
     }
   }
@@ -77,7 +77,7 @@ class CartController {
         updatedCart,
       });
     } catch (error) {
-      // console.error("Error al eliminar el producto del carrito", error);
+      // req.logger.error("Error al eliminar el producto del carrito", error);
       res.status(500).json({
         status: "error",
         error: "Error interno del servidor",
@@ -98,7 +98,7 @@ class CartController {
       );
       res.json(updatedCart.products);
     } catch (error) {
-      // console.error("Error al intentar actualizar el carrito", error);
+      // req.logger.error("Error al intentar actualizar el carrito", error);
       res.status(500).json({ error: "Error del servidor al hacer put" });
     }
   }
@@ -123,7 +123,7 @@ class CartController {
         updatedCart,
       });
     } catch (error) {
-      // console.error(
+      // req.logger.error(
       // "Error al intentar actualizar la cantidad de ejemplares de un producto en el carrito",
       // error
       // );
@@ -146,7 +146,7 @@ class CartController {
         updatedCart,
       });
     } catch (error) {
-      // console.error(
+      // req.logger.error(
       // "Error al intentar eliminar todos los productos del carrito",
       // error
       // );

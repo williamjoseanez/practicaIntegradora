@@ -7,7 +7,7 @@ class CartManager {
       const allCarts = await CartModel.find();
       return allCarts;
     } catch (error) {
-      // console.error("Error al obtener todos los carritos:", error);
+      // req.logger.error("Error al obtener todos los carritos:", error);
       throw error;
     }
   }
@@ -81,7 +81,7 @@ class CartManager {
       await cart.save();
       return cart;
     } catch (error) {
-      console.error(
+      req.logger.error(
         "Error al intentar eliminar un producto del carrito",
         error
       );
@@ -106,7 +106,7 @@ class CartManager {
       await cart.save();
       return cart;
     } catch (error) {
-      // console.error("Error al intentar actualizar el carrito", error);
+      // req.logger.error("Error al intentar actualizar el carrito", error);
       throw error;
     }
   }
@@ -133,7 +133,7 @@ class CartManager {
         throw new Error("Producto no encontrado en el carrito");
       }
     } catch (error) {
-      // console.error(
+      // req.logger.error(
       //   "Error al actualizar la cantidad del producto en el carrito",
       //   error
       // );
@@ -155,7 +155,7 @@ class CartManager {
 
       return cart;
     } catch (error) {
-      // console.error("Error al limpiar el carrito", error);
+      // req.logger.error("Error al limpiar el carrito", error);
       throw error;
     }
   }

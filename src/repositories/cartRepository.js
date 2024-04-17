@@ -20,7 +20,7 @@ class CartRepository {
       }
       return cart;
     } catch (error) {
-      // console.error("Error al encontrar el carrito por ID:", error);
+      // req.logger.error("Error al encontrar el carrito por ID:", error);
       throw error;
     }
   }
@@ -81,7 +81,7 @@ class CartRepository {
       await cart.save();
       return cart;
     } catch (error) {
-      // console.error("Error al intentar actualizar el carrito", error);
+      // req.logger.error("Error al intentar actualizar el carrito", error);
       throw new Error("Error");
     }
   }
@@ -128,7 +128,7 @@ class CartRepository {
 
       return cart;
     } catch (error) {
-      // console.error("Error al limpiar el carrito", error);
+      // req.logger.error("Error al limpiar el carrito", error);
       throw error;
     }
   }

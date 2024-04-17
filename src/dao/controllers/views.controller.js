@@ -43,7 +43,7 @@ class ViewsControllers {
         cartId,
       });
     } catch (error) {
-      console.error("Error al obtener productos", error);
+      req.logger.error("Error al obtener productos", error);
       res.status(500).json({
         status: "error",
         error: "Error interno del servidor",
@@ -84,7 +84,7 @@ class ViewsControllers {
         cartId,
       });
     } catch (error) {
-      // console.error("Error al obtener el carrito", error);
+      // req.logger.error("Error al obtener el carrito", error);
       res.status(500).json({ error: "Error interno del servidor" });
     }
   }
@@ -104,7 +104,7 @@ class ViewsControllers {
       // Redireccionar a home con mensaje de éxito
       res.redirect("upload");
     } catch (error) {
-      // console.error("Error al subir la imagen:", error);
+      // req.logger.error("Error al subir la imagen:", error);
       res.status(500).send("Error al subir la imagen");
     }
   }
@@ -147,7 +147,7 @@ class ViewsControllers {
       res.render("detail", { product });
     } catch (error) {
       // Manejo cualquier error que ocurra durante la búsqueda del producto
-      // console.error("Error al obtener los detalles del producto:", error);
+      // req.logger.error("Error al obtener los detalles del producto:", error);
       res.status(500).send("Error interno del servidor");
     }
   }
@@ -220,7 +220,7 @@ class ViewsControllers {
         hasTicket,
       });
     } catch (error) {
-      console.error("Error al finalizar compra:", error);
+      req.logger.error("Error al finalizar compra:", error);
       res.status(500).json({ error: "Error interno del servidor" });
     }
   }

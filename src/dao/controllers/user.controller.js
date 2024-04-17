@@ -77,7 +77,7 @@ class UserController {
 
       res.redirect("/api/users/profile");
     } catch (error) {
-      console.error(error);
+      req.logger.error(error);
       res.status(500).send("Error interno del servidor");
     }
   }

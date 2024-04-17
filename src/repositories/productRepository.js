@@ -38,7 +38,7 @@ class ProductRepository {
 
       await newProduct.save();
     } catch (error) {
-      // console.error("Error al agregar el producto:", error);
+      // req.logger.error("Error al agregar el producto:", error);
       throw error;
     }
   }

@@ -64,7 +64,7 @@ async function updateQuantity(cartId, productId, newQuantity) {
         // No es necesario recargar la página aquí, ya que la actualización del DOM ya ha ocurrido
 
     } catch (error) {
-        console.error('Error:', error);
+        req.logger.error('Error:', error);
     }
 }
 
@@ -82,7 +82,7 @@ async function updateQuantity(cartId, productId, newQuantity) {
             // Recargar la página o actualizar la interfaz de usuario según sea necesario
             location.reload();
         } catch (error) {
-            console.error('Error:', error);
+            req.logger.error('Error:', error);
         }
     }
 
@@ -97,7 +97,7 @@ async function updateQuantity(cartId, productId, newQuantity) {
             location.reload();
         })
         .catch((error) => {
-            console.error("Error:", error);
+            req.logger.error("Error:", error);
         });
     }
 
@@ -119,7 +119,7 @@ async function updateQuantity(cartId, productId, newQuantity) {
             window.location.href = `/finalizePurchase/${cartId}/ticket/${ticketId}`;
         })
         .catch(error => {
-            console.error('Error:', error);
+            req.logger.error('Error:', error);
         });
 </script> --}}
 
@@ -202,7 +202,7 @@ async function updateQuantity(cartId, productId, newQuantity) {
         quantityElement.innerText = newQuantity;
       })
       .catch((error) => {
-        console.error('Error:', error);
+        req.logger.error('Error:', error);
       });
   }
   
@@ -219,7 +219,7 @@ async function updateQuantity(cartId, productId, newQuantity) {
       location.reload();
     })
     .catch((error) => {
-      console.error('Error:', error);
+      req.logger.error('Error:', error);
     });
 }
 
@@ -234,7 +234,7 @@ function emptyCart(cartId) {
       location.reload();
     })
     .catch((error) => {
-      console.error('Error:', error);
+      req.logger.error('Error:', error);
     });
 }
 
@@ -256,7 +256,7 @@ function finishPurchase(cartId) {
             window.location.href = `/finishPurchase/${cartId}/ticket/${ticketId}`;
         })
         .catch(error => {
-            console.error('Error:', error);
+            req.logger.error('Error:', error);
         });
 }
 

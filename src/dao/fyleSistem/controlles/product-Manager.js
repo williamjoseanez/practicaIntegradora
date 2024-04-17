@@ -15,7 +15,7 @@ class ProductManager {
       const data = await fs.readFile(this.path, "utf-8");
       this.products = JSON.parse(data);
     } catch (error) {
-      console.error("Error al cargar productos:", error.message);
+      req.logger.error("Error al cargar productos:", error.message);
     }
   }
 
@@ -105,7 +105,7 @@ class ProductManager {
         return productoBuscado;
       }
     } catch (error) {
-      console.error("error al leer el archivo", error);
+      req.logger.error("error al leer el archivo", error);
     }
   }
 
@@ -116,7 +116,7 @@ class ProductManager {
       const arrayProductos = JSON.parse(respuesta);
       return arrayProductos;
     } catch (error) {
-      console.error("error al leer un archivo", error);
+      req.logger.error("error al leer un archivo", error);
     }
   }
 
@@ -124,7 +124,7 @@ class ProductManager {
     try {
       await fs.writeFile(this.path, JSON.stringify(arrayProductos, null, 2));
     } catch (error) {
-      console.error("Error al guardar el archivo:", error.message);
+      req.logger.error("Error al guardar el archivo:", error.message);
       throw error;
     }
   }
@@ -140,10 +140,10 @@ class ProductManager {
         arrayProductos.splice(index, 1, productAtualizado);
         await this.guardarArchivo(arrayProductos);
       } else {
-        console.error("no se encontro el elemento a actualizar");
+        req.logger.error("no se encontro el elemento a actualizar");
       }
     } catch (error) {
-      console.error("error al actualizar el producto", error);
+      req.logger.error("error al actualizar el producto", error);
     }
   }
 

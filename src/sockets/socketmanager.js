@@ -32,7 +32,7 @@ class SocketManager {
       // if (Array.isArray(productList) && productList.length > 0) {
       //   socket.emit("products", productList);
       // } else {
-      //   console.error("Invalid product data:", productList);
+      //   req.logger.error("Invalid product data:", productList);
       // }
       const productList = await productRepository.getProducts();
       if (
@@ -42,7 +42,7 @@ class SocketManager {
       ) {
         socket.emit("products", productList.docs);
       } else {
-        console.error("Datos de producto inválidos:", productList);
+        req.logger.error("Datos de producto inválidos:", productList);
       }
 
       socket.emit("products", productList);

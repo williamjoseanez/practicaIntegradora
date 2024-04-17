@@ -1,14 +1,5 @@
 const winston = require("winston");
 
-// const logger = winston.createLogger({
-//   transports: [
-//     new winston.transports.Console({ level: "http" }),
-//     new winston.transports.File({
-//       filename: "./error.log",
-//       level: "warn",
-//     }),
-//   ],
-// });
 
 const niveles = {
   nivel: {
@@ -47,14 +38,47 @@ const logger = winston.createLogger({
     ]
 })
 
-// middleware de logeo de solicitudes HTTP
+const loggerProduction = winston.createLogger({
+    levels: niveles.nivel,
+    transports: [
+        new winston.transports.Console({
+            level: "http", 
+            format: winston.format.combine(
+                winston.format.colorize({colors: niveles.colores}), 
+                winston.format.simple()
+            )
+        }),
+        new winston.transports.File({
+            filename: "./errores.log", 
+            level: "info",
+            format: winston.format.simple()
+        })
+    ]
+})
+
+const loggerDevelopment = winston.createLogger({
+    levels: niveles.nivel,
+    transports: [
+        new winston.transports.Console({
+            level: "http", 
+            format: winston.format.combine(
+                winston.format.colorize({colors: niveles.colores}), 
+                winston.format.simple()
+            )
+        }),
+        new winston.transports.File({
+            filename: "./errores.log", 
+            level: "debug",
+            format: winston.format.simple()
+        })
+    ]
+})
+
 const addLogger = (req, res, next) => {
-  req.logger = logger;
-  req.logger.http(`${req.method} en ${
-    req.url
-  } - ${new Date().toLocaleDateString()}
-    `);
-  next();
-};
+    // Selecciona el logger correspondiente según el entorno
+    req.logger = process.env.NODE_ENV === "production" ? loggerProduction : loggerDevelopment;
+    req.logger.http(`${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`);
+    next();
+  };
 
 module.exports = addLogger;

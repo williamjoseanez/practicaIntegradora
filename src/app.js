@@ -13,9 +13,10 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const userRouter = require("./routes/user.router");
 const sessionRouter = require("./routes/sessions.router.js");
-const loggerRouter = require("./routes/logger.router.js");
 const passport = require("passport");
 const initializePassport = require("./config/passport.config.js");
+const loggerRouter = require("./routes/logger.router.js");
+
 const addLogger = require("./utils/logger.js");
 
 const app = express();

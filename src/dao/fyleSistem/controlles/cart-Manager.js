@@ -44,7 +44,7 @@ class CartManager {
       }
       return cart;
     } catch {
-      console.error("error al obtener el carrito por ID", error);
+      req.logger.error("error al obtener el carrito por ID", error);
       throw error;
     }
   }

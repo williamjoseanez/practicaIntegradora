@@ -1,0 +1,22 @@
+error: Error fatal, vamos a morir
+warning: Mensaje de Warning
+error: Error fatal, vamos a morir
+warning: Mensaje de Warning
+error: Error fatal
+warning: Mensaje de Warning
+http: GET en / - 17/4/2024
+http: GET en /css/style.css - 17/4/2024
+http: GET en /img/Urban%20Tracker.webp - 17/4/2024
+http: GET en /img/Simon_Riley_remasterizado.webp - 17/4/2024
+http: GET en /img/LEV.JPG.webp - 17/4/2024
+http: GET en /img/Soapg.webp - 17/4/2024
+http: GET en /login - 17/4/2024
+http: GET en /css/style.css - 17/4/2024
+http: POST en /api/users/login - 17/4/2024
+http: GET en /api/users/profile - 17/4/2024
+http: GET en /css/style.css - 17/4/2024
+http: GET en /img/icons8-apagar-16.png - 17/4/2024
+http: GET en /products - 17/4/2024
+http: GET en /css/style.css - 17/4/2024
+http: GET en /img/icons8-apagar-16.png - 17/4/2024
+http: GET en /js/products.js - 17/4/2024

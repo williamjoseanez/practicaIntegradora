@@ -4,7 +4,7 @@ socket.on("products", (data) => {
   if (Array.isArray(data) && data.length > 0) {
     renderProducts(data);
   } else {
-    console.error("Received data is not a valid array:", data);
+    req.logger.error("Received data is not a valid array:", data);
   }
 });
 
