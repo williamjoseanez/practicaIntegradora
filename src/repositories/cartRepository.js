@@ -7,15 +7,15 @@ class CartRepository {
       await newCart.save();
       return newCart;
     } catch (error) {
-      console.log("Error al crear el nuevo carrito de compra");
+      req.logger.debug("Error al crear el nuevo carrito de compra");
     }
   }
-////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////
   async getCartById(cartId) {
     try {
       const cart = await CartModel.findById(cartId);
       if (!cart) {
-        // console.log("No existe ese carrito con el id");
+        // req.logger.debug("No existe ese carrito con el id");
         return null;
       }
       return cart;
@@ -50,7 +50,7 @@ class CartRepository {
   // ///////////////////////////////////////////////////////////////////
   // remueve un producto del carrito
   async deletProduct(cartId, productId) {
-     try {
+    try {
       const cart = await CartModel.findById(cartId);
 
       if (!cart) {
@@ -109,10 +109,10 @@ class CartRepository {
         throw new Error("Producto no encontrado en el carrito");
       }
     } catch (error) {
-          throw error;
+      throw error;
     }
   }
-  
+
   ////////////////////////////////////////////////////////////////////////////
   async clearCart(cartId) {
     try {

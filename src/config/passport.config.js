@@ -13,7 +13,7 @@ const JWTStrategy = jwt.Strategy;
 const ExtractJwt = jwt.ExtractJwt;
 // require("dotenv").config();
 
-// console.log("Environment variables:", process.env);
+// req.logger.debug("Environment variables:", process.env);
 
 const cookieExtractor = (req) => {
   let token = null;
@@ -80,7 +80,7 @@ const initializePassport = () => {
   // const gitHubClienteSecret = process.env.GITHUB_CLIENT_SECRET;
 
   // .log("GitHub Client ID:", process.env.GITHUB_CLIENT_ID);
-  // console.log("GitHub Client Secret:", process.env.GITHUB_CLIENT_SECRET);
+  // req.logger.debug("GitHub Client Secret:", process.env.GITHUB_CLIENT_SECRET);
   // //////////////////////////////////Estategia GitHub
   passport.use(
     "github",
@@ -92,7 +92,7 @@ const initializePassport = () => {
       },
       // clientSecret nueva 607b8c50ed69ab8b8cbeaba6f9e4139014b74fe2
       async (accessToken, refreshToken, profile, done) => {
-        // console.log("Profile: ", profile);
+        // req.logger.debug("Profile: ", profile);
         try {
           let user = await UserModel.findOne({
             email: profile._json.email,
@@ -130,7 +130,7 @@ const initializePassport = () => {
       },
       // clientSecret nueva 607b8c50ed69ab8b8cbeaba6f9e4139014b74fe2
       async (accessToken, refreshToken, profile, done) => {
-        // console.log("Profile: ", profile);
+        // req.logger.debug("Profile: ", profile);
         try {
           let user = await UserModel.findOne({
             // email: profile._json.email,
@@ -202,6 +202,6 @@ const initializePassport = () => {
 // };
 
 // const secretKey = generateSecretKey();
-// console.log(secretKey); // Imprime la clave secreta generada
+// req.logger.debug(secretKey); // Imprime la clave secreta generada
 
 module.exports = initializePassport;

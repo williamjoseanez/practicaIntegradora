@@ -27,7 +27,7 @@ class CartController {
       let cart = await cartRepository.getProductToCart(cartId);
 
       if (!cart) {
-        // console.log("No existe ese carrito con el id");
+        // req.logger.debug("No existe ese carrito con el id");
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
       res.json(cart.products);

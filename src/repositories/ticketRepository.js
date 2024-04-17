@@ -5,12 +5,12 @@ class TicketRepository {
     try {
       const ticket = await TicketModel.findById(id);
       if (!ticket) {
-        console.log("Ticket no encontrado");
+        req.logger.debug("Ticket no encontrado");
         return null;
       }
       return ticket;
     } catch (error) {
-      console.log("Error al obtener el ticket", error);
+      req.logger.debug("Error al obtener el ticket", error);
       throw error;
     }
   }

@@ -18,7 +18,7 @@ class CartManager {
       await newCart.save();
       return newCart;
     } catch (error) {
-      console.log("Error al crear el nuevo carrito de compra");
+      req.logger.debug("Error al crear el nuevo carrito de compra");
     }
   }
 
@@ -26,13 +26,16 @@ class CartManager {
     try {
       const cart = await CartModel.findById(cartId);
       if (!cart) {
-        // console.log("No existe ese carrito con el id");
+        // req.logger.debug("No existe ese carrito con el id");
         return null;
       }
 
       return cart;
     } catch (error) {
-      console.log("Error al traer el carrito, fijate bien lo que haces", error);
+      req.logger.debug(
+        "Error al traer el carrito, fijate bien lo que haces",
+        error
+      );
     }
   }
 

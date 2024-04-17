@@ -244,7 +244,7 @@ function finishPurchase(cartId) {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Error al finalizar la compra estupido');
+                throw new Error('Error al finalizar la compra');
             }
             // Obtener el ID del ticket de la respuesta
             return response.json();

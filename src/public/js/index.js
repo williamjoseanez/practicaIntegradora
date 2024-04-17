@@ -9,7 +9,6 @@ socket.on("products", (data) => {
 });
 
 const renderProducts = (products) => {
-  
   const productContainer = document.getElementById("productContainer");
   productContainer.innerHTML = "";
 
@@ -50,7 +49,7 @@ const deletProduct = (id) => {
     }
   });
 
-  // console.log('Eliminando producto con id:', id);
+  // req.logger.debug('Eliminando producto con id:', id);
 };
 
 socket.on("deletproduct", (id) => {
@@ -130,4 +129,3 @@ const aggProduct = () => {
   document.getElementById("category").value = "";
 };
 // /////////////////////////////
-

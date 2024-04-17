@@ -14,10 +14,10 @@ class CartManager {
       this.carts = JSON.parse(data);
 
       if (this.carts.length > 0) {
-          this.ultId = Math.max(...this.carts.map((cart) => cart.id));
+        this.ultId = Math.max(...this.carts.map((cart) => cart.id));
       }
     } catch (error) {
-      // console.log(`Error reading file: ${error}`);
+      // req.logger.debug(`Error reading file: ${error}`);
       await this.saveCart();
     }
   }

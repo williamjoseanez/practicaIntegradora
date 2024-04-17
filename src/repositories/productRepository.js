@@ -91,7 +91,7 @@ class ProductRepository {
           : null,
       };
     } catch (error) {
-      // console.log("Error al obtener los productos", error);
+      // req.logger.debug("Error al obtener los productos", error);
       throw error;
     }
   }
@@ -114,14 +114,14 @@ class ProductRepository {
       const Update = await ProductsModel.findByIdAndUpdate(id, productUpdated);
 
       if (!Update) {
-        // console.log("El producto no existe");
+        // req.logger.debug("El producto no existe");
         return null;
       }
 
-      // console.log("producto actualizado con exito");
+      // req.logger.debug("producto actualizado con exito");
       return Update;
     } catch (error) {
-      // console.log("error al actualizar el producto", error);
+      // req.logger.debug("error al actualizar el producto", error);
       throw new Error("Error");
     }
   }
@@ -131,13 +131,13 @@ class ProductRepository {
       const productDelete = await ProductsModel.findByIdAndDelete(id);
 
       if (!productDelete) {
-        // console.log("No se ha podido eliminar el producto");
+        // req.logger.debug("No se ha podido eliminar el producto");
         return null;
       }
-      // console.log("Se ha eliminado correctamente el producto");
+      // req.logger.debug("Se ha eliminado correctamente el producto");
       return productDelete;
     } catch (error) {
-      // console.log("error al borrar el producto", error);
+      // req.logger.debug("error al borrar el producto", error);
       throw new Error("Error");
     }
   }

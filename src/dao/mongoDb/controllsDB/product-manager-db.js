@@ -15,14 +15,14 @@ class ProductManager {
       // validamos cada campo
 
       if (!title || !description || !price || !code || !stock || !category) {
-        // console.log("Todos los campos son obligatorios");
+        // req.logger.debug("Todos los campos son obligatorios");
         return;
       }
       // validamos codigo unico
 
       const existingProduct = await ProductsModel.findOne({ code: code });
       if (existingProduct) {
-        // console.log("El código debe ser único, ya está siendo utilizado");
+        // req.logger.debug("El código debe ser único, ya está siendo utilizado");
         return;
       }
 
@@ -43,7 +43,7 @@ class ProductManager {
 
       await newProduct.save();
     } catch (error) {
-      // console.log("error al agregar el producto", error);
+      // req.logger.debug("error al agregar el producto", error);
       throw error;
     }
   }
@@ -96,7 +96,7 @@ class ProductManager {
           : null,
       };
     } catch (error) {
-      // console.log("Error al obtener los productos", error);
+      // req.logger.debug("Error al obtener los productos", error);
       throw error;
     }
   }
@@ -106,10 +106,10 @@ class ProductManager {
       const product = await ProductsModel.findById(id);
 
       if (!product) {
-        // console.log(`No se ha encontrado el producto con ID "${id}"`);
+        // req.logger.debug(`No se ha encontrado el producto con ID "${id}"`);
         return null;
       }
-      // console.log("producto Encontrado");
+      // req.logger.debug("producto Encontrado");
       return product;
     } catch (error) {
       throw error;
@@ -124,11 +124,11 @@ class ProductManager {
       );
 
       if (!productUpdate) {
-        // console.log("El producto no existe");
+        // req.logger.debug("El producto no existe");
         return null;
       }
 
-      // console.log("producto actializado con exito");
+      // req.logger.debug("producto actializado con exito");
       return productUpdate;
     } catch (error) {
       throw error;
@@ -139,13 +139,13 @@ class ProductManager {
       const productDelete = await ProductsModel.findByIdAndDelete(id);
 
       if (!productDelete) {
-        // console.log("No se ha podido eliminar el producto");
+        // req.logger.debug("No se ha podido eliminar el producto");
         return null;
       }
-      // console.log("Se ha eliminado correctamente el producto");
+      // req.logger.debug("Se ha eliminado correctamente el producto");
       return null;
     } catch (error) {
-      // console.log("error al borrar el producto", error);
+      // req.logger.debug("error al borrar el producto", error);
       throw error;
     }
   }

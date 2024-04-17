@@ -13,12 +13,15 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const userRouter = require("./routes/user.router");
 const sessionRouter = require("./routes/sessions.router.js");
+const loggerRouter = require("./routes/logger.router.js");
 const passport = require("passport");
 const initializePassport = require("./config/passport.config.js");
+const addLogger = require("./utils/logger.js");
 
 const app = express();
+// middleware 
+app.use(addLogger);
 
-// Configuración de Handlebars
 
 app.engine("handlebars", exphbs.engine());
 app.set("view engine", "handlebars");
@@ -71,6 +74,7 @@ app.use("/api/products", productRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/users", userRouter);
 app.use("/api/sessions", sessionRouter);
+app.use("/loggertest", loggerRouter);
 
 initializePassport();
 app.use(passport.initialize());

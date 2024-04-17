@@ -6,26 +6,25 @@
     />
   </a>
 
-  <nav>
-    <ul>
-      {{#if users}}
+  
+      {{users}}
+<div>
 
-        <li> <h3>¡Bienvenido {{user.first_name}} {{user.last_name}}!</h3></li>
-        <li><p>Rol: {{user.role}}</p></li>
-        {{#if user.cart}}
-          <li>
-            <a href="/carts/{{user.cart}}">🛒
+        <h3>¡Bienvenido {{user.first_name}} {{user.last_name}}!</li>
+</div>
+        <p>Rol: {{user.role}}</p>
+              
+            <a href="/api/carts/{{../cartId}}/products/{{this._id}}">🛒
               <span>{{cartLength}}</span>
             </a>
-          </li>
+        
 
-        {{/if}}
+    
 
-        <li><a href="/api/sessions/logout">
-            <img src="/img/icons8-apagar-16.png" alt="Cerrar sesión" /></a></li>
+        <a href="/api/sessions/logout">
+            <img src="/img/icons8-apagar-16.png" alt="Cerrar sesión" /></a>
 
-      {{/if}}
+     
 
-    </ul>
   </nav>
 </header>

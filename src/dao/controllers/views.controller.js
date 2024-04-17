@@ -58,7 +58,7 @@ class ViewsControllers {
       const cart = await cartRepository.getCartById(cartId);
 
       if (!cart) {
-        // console.log("No existe ese carrito con el id");
+        // req.logger.debug("No existe ese carrito con el id");
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
 
@@ -141,7 +141,7 @@ class ViewsControllers {
         return;
       }
       // Imprimir el objeto product en la consola del servidor para verificar su estructura
-      console.log("Producto encontrado:", product);
+      req.logger.debug("Producto encontrado:", product);
 
       // Renderizo la plantilla de detalles del producto y paso los datos del producto
       res.render("detail", { product });

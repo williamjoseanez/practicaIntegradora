@@ -41,12 +41,12 @@ class ProductManager {
       !status ||
       !category
     ) {
-      // console.log("Todos los campos son obligatorios");
+      // req.logger.debug("Todos los campos son obligatorios");
       return;
     }
     // validamos codigo unico
     if (this.products.some((item) => item.code === code)) {
-      console.log("El codigo debe ser unico, lo estas repitiendo");
+      req.logger.debug("El codigo debe ser unico, lo estas repitiendo");
       return;
     }
 
@@ -80,12 +80,12 @@ class ProductManager {
   }
 
   async getProducts() {
-    // console.log(this.products);
+    // req.logger.debug(this.products);
     try {
       const arrayProductos = await this.leerArchivo();
       return arrayProductos;
     } catch (error) {
-      // console.log("Error al leer el archivo", error);
+      // req.logger.debug("Error al leer el archivo", error);
       throw error;
     }
   }
@@ -98,10 +98,10 @@ class ProductManager {
       );
 
       if (!productoBuscado) {
-        // console.log("No se encontro el producto");
+        // req.logger.debug("No se encontro el producto");
         return null;
       } else {
-        // console.log("producto encontrado ");
+        // req.logger.debug("producto encontrado ");
         return productoBuscado;
       }
     } catch (error) {
@@ -134,7 +134,7 @@ class ProductManager {
     try {
       const arrayProductos = await this.leerArchivo();
 
-      const index = arrayProductos.findIndex(item => item.id === id);
+      const index = arrayProductos.findIndex((item) => item.id === id);
 
       if (index !== -1) {
         arrayProductos.splice(index, 1, productAtualizado);
@@ -156,10 +156,10 @@ class ProductManager {
         arrayProductos.splice(index, 1);
         await this.guardarArchivo(arrayProductos);
       } else {
-        console.log("no se encontro el elemento a borrar");
+        req.logger.debug("no se encontro el elemento a borrar");
       }
     } catch (error) {
-      console.log("error al borrar el producto", error);
+      req.logger.debug("error al borrar el producto", error);
     }
   }
 
